@@ -1,0 +1,19 @@
+{
+  "name": "st-webapp",
+  "version": "0.0.0",
+  "description": "stormpath tutorial",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Columbia",
+  "dependencies": {
+    "xtend": "~4.0.0",
+    "forms": "~1.1.1",
+    "csurf": "~1.7.0",
+    "express": "~4.12.3",
+    "jade": "~1.9.2",
+    "express-stormpath": "~1.0.3"
+  }
+}
