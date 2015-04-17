@@ -11,6 +11,8 @@ html
           p Welcome, #{user.fullName}
           p
             a.small(href="profile") Edit my profile
+          p
+            a.small(href="newpost") Create a new post
           a.btn.btn-primary(href="/logout") Logout
         else
           p Welcome to my app, ready to get started?
@@ -20,3 +22,5 @@ html
             span.small Don't have an account?
             span &nbsp;
             a.small(href="/register") Register now
+
+    div container

@@ -1,6 +1,10 @@
 
 var express = require('express');
 var stormpath = require('express-stormpath');
+var mongo = require('mongodb');
+var logger = require('morgan');
+var mongoose = require('mongoose');
+var quickthumb = require('quickthumb');
 
 var app = express();
 
@@ -13,16 +17,32 @@ var stormpathMiddleware = stormpath.init(app, {
 	secretKey: 'some_long_random_string',
 	expandCustomData: true,
 	enableForgotPassword: true
-});
+})
 
-app.use(stormpathMiddleware);
+//Middlewares
+app.use(logger())
+app.use(stormpathMiddleware)
+app.use('/images', stormpath.loginRequired, quickthumb.static(__dirname + '/images'));
+
+//Connect to db
+mongoose.connect('mongodb://localhost/webapp', function(err) {
+	if (err) {
+		console.log('connection error', err)
+	} else {
+		console.log('connection successful')
+	}
+})
+
+//Process routes
 
 app.get('/', function(req, res) {
 	res.render('home', {
 		title: 'Welcome'
-	});
-});
+	})
+})
 
-app.use('/profile',require('./profile')());
+app.use('/profile',require('./profile'))
+
+app.use('/newpost',require('./newpost'))
 
 app.listen(3000);
