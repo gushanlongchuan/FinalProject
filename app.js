@@ -45,4 +45,8 @@ app.use('/profile',require('./profile'))
 
 app.use('/newpost',require('./newpost'))
 
+//TODO
+app.use('/posts', require('./posts'))
+
+
 app.listen(3000);
