@@ -42,7 +42,7 @@ var router = express.Router();
 router.use(multer({ dest: './images/'}))
 
 // Use csurf for token
-router.use(csurf());
+router.use(csurf({ sessionKey: 'stormpathSession' }));
 
 //Process GET and POST
 router.all('/', stormpath.loginRequired, function(req, res) {
