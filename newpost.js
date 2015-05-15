@@ -4,20 +4,19 @@ var forms = require('forms');
 var csurf = require('csurf');
 var multer = require('multer');
 var stormpath = require('express-stormpath');
-var mongoose = require('mongoose');
 var extend = require('xtend');
 var _ = require('underscore');
-var Post = require('./models/Post.js');
+var Post = require('./module/post_table.js');
 
 // Declare the schema of the form
 var newpostForm = forms.create({
-	title: forms.fields.string({
+	Title_of_post: forms.fields.string({
 		required: true
 	}),
-	description: forms.fields.string({
+	Description: forms.fields.string({
 		required: true
 	}),
-	price: forms.fields.number({
+	Price: forms.fields.number({
 		required: true
 	})
 })
@@ -50,17 +49,18 @@ router.all('/', stormpath.loginRequired, function(req, res) {
 		success: function(form) {
 			//form posted			
 			var newpost = _.extend(form.data, {
-				username: req.user.username,
-				givenName: req.user.givenName,
-				surname: req.user.surname,
-				images: req.files.image.path
+				Username: req.user.username,
+				User_id: req.user.href,
+				Image_path: req.files.image.path
 			})
-			console.log(newpost)
+			//insert in the db
 			Post.create(newpost, function (err, post) {
+				console.log(post)
 				if (err) {
 					console.log(err)
 				}
 			})
+			//show the user that his post has been saved
 			renderForm(req,res,{
 				saved:true
 			});

@@ -6,10 +6,10 @@ var PostSchema   = new Schema({
 	User_id: String,
 	Title_of_post: String,
 	Description: String,
-	Price: Numnber,
+	Price: Number,
 	TimeStamp: { type : Date, default: Date.now },
 	Image_path: String,
-	Status: Number
+	Status: {type: Number, default: 0}
 });
  
 module.exports = mongoose.model('Post_table', PostSchema);
