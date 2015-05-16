@@ -2,9 +2,8 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var CommentSchema   = new Schema({
-    Post_id: String,
-	User_id: String,
-	User_name: String,
+	Username: String,
+	Comment_username:
 	Contend: String,
 	TimeStamp: Date
 });
