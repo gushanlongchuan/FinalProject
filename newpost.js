@@ -55,7 +55,7 @@ router.all('/', stormpath.loginRequired, function(req, res) {
 				surname: req.user.surname,
 				images: req.files.image.path
 			})
-			console.log(newpost)
+			console.log(req.files.image.path)
 			Post.create(newpost, function (err, post) {
 				if (err) {
 					console.log(err)

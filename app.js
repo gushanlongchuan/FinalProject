@@ -25,7 +25,7 @@ app.use(stormpathMiddleware)
 app.use('/images', stormpath.loginRequired, quickthumb.static(__dirname + '/images'));
 
 //Connect to db
-mongoose.connect('mongodb://localhost/webapp', function(err) {
+mongoose.connect('mongodb://gushan:gs524410@ds061721.mongolab.com:61721/finalproject', function(err) {
 	if (err) {
 		console.log('connection error', err)
 	} else {
@@ -40,7 +40,7 @@ app.get('/', function(req, res) {
 });
 
 app.use('/profile',stormpath.loginRequired,require('./profile')());
-
+app.use('/user',stormpath.loginRequired,require('./user'));
 app.use('/newpost',stormpath.loginRequired,require('./newpost'));
 
 app.listen(3000);
