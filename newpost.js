@@ -53,7 +53,6 @@ router.all('/', stormpath.loginRequired, function(req, res) {
 				User_id: req.user.href,
 				Image_path: req.files.image.path
 			})
-			//insert in the db
 			Post.create(newpost, function (err, post) {
 				console.log(post)
 				if (err) {
