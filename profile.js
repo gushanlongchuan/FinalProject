@@ -2,6 +2,7 @@
 var express = require('express');
 var forms = require('forms');
 var csurf = require('csurf');
+var multer = require('multer');
 var collectFormErrors = require('express-stormpath/lib/helpers').collectFormErrors;
 var stormpath = require('express-stormpath');
 var extend = require('xtend');
@@ -43,6 +44,9 @@ module.exports = function profile(){
 
   var router = express.Router();
 
+  // Use multer for file upload
+  router.use(multer({ dest: './images/'}))
+  // Use csurf for token
   router.use(csurf({ sessionKey: 'stormpathSession' }));
 
   // Capture all requests, the form library will negotiate
@@ -63,6 +67,7 @@ module.exports = function profile(){
         req.user.customData.city = form.data.city;
         req.user.customData.state = form.data.state;
         req.user.customData.zip = form.data.zip;
+        req.user.customData.profile_pic = req.files.image.path;
         req.user.save(function(err){
           if(err){
             if(err.developerMessage){

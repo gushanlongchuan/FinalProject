@@ -18,7 +18,7 @@ html
       if saved
         div.alert.alert-success
           span Your profile has been saved
-      form.login-form.form-horizontal(method='post', role='form')
+      form.login-form.form-horizontal(method='post', role='form', enctype='multipart/form-data')
         input(name='_csrf', type='hidden', value=csrfToken)
 
         div.form-group
@@ -70,6 +70,13 @@ html
               name='zip',
               type='text',
               value=zip)
+        div.form-group
+          label.col-sm-4 Profile picture
+          div.col-sm-8
+            input.form-control(
+              required=true,
+              name='image',
+              type='file')
         div.form-group
           div.col-sm-offset-4.col-sm-8
             button.login.btn.btn-primary(type='submit') Save

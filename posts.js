@@ -46,7 +46,7 @@ router.post('/', stormpath.loginRequired, function(req, res) {
 	topass.post_data.Comments.push({
 		user_id: newcomment.User_id.split("/")[5],
 		user_name: newcomment.Username,
-		user_pic: 'images/default_profile.jpg',
+		user_pic: req.user.customData.profile_pic || 'images/default_profile.jpg',
 		text: newcomment.Content
 	})
 	res.render('posts', extend(topass))
@@ -58,6 +58,7 @@ router.get('/', stormpath.loginRequired, function(req, res) {
 
 	// Search for post in the DB
 	id = req.originalUrl.split("/")[2]
+	console.log(id)
 	Post.findOne({ _id: id }, function(err, post) {
 
 		// Handle error
