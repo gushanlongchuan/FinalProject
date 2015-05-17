@@ -48,11 +48,10 @@ router.all('/', stormpath.loginRequired, function(req, res) {
 	newpostForm.handle(req, {
 		success: function(form) {
 			//form posted		
-			var path = "..\\"+req.files.image.path
 			var newpost = _.extend(form.data, {
 				Username: req.user.givenName.charAt(0).toUpperCase() + req.user.givenName.toLowerCase().slice(1) + ' ' + req.user.surname.charAt(0).toUpperCase() + req.user.surname.toLowerCase().slice(1),
 				User_id: req.user.href,
-				Image_path:path
+				Image_path:req.files.image.path
 			})
 			Post.create(newpost, function (err, post) {
 				console.log(post)
