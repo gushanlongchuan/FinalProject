@@ -47,11 +47,12 @@ router.use(csurf({ sessionKey: 'stormpathSession' }));
 router.all('/', stormpath.loginRequired, function(req, res) {
 	newpostForm.handle(req, {
 		success: function(form) {
-			//form posted			
+			//form posted		
+			var path = "..\\"+req.files.image.path
 			var newpost = _.extend(form.data, {
 				Username: req.user.username,
 				User_id: req.user.href,
-				Image_path: req.files.image.path
+				Image_path:path
 			})
 			Post.create(newpost, function (err, post) {
 				console.log(post)

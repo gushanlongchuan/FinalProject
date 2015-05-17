@@ -42,5 +42,5 @@ app.get('/', function(req, res) {
 app.use('/profile',stormpath.loginRequired,require('./profile')());
 app.use('/user',stormpath.loginRequired,require('./user'));
 app.use('/newpost',stormpath.loginRequired,require('./newpost'));
-
+app.use('/stranger',stormpath.loginRequired,require('./stranger'));
 app.listen(3000);
