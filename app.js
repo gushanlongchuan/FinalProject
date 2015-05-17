@@ -40,7 +40,7 @@ app.get('/', function(req, res) {
 });
 
 app.use('/profile',stormpath.loginRequired,require('./profile')());
-app.use('/user',stormpath.loginRequired,require('./user'));
+//app.use('/user',stormpath.loginRequired,require('./user'));
 app.use('/newpost',stormpath.loginRequired,require('./newpost'));
 
 app.use('/posts/:id', stormpath.loginRequired, require('./posts'));
