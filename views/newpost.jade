@@ -15,9 +15,11 @@ html
         each error in errors
           div.alert.alert-danger
             span #{error.error}
+            
       if saved
         div.alert.alert-success
           span Your item has been posted
+
       form.form-horizontal(method='post', role='form', enctype='multipart/form-data')
         input(name='_csrf', type='hidden', value=csrfToken)
 

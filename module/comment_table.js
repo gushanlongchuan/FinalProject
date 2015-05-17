@@ -4,9 +4,9 @@ var Schema       = mongoose.Schema;
 var CommentSchema   = new Schema({
     Post_id: String,
 	User_id: String,
-	User_name: String,
-	Contend: String,
-	TimeStamp: Date
+	Username: String,
+	Content: String,
+	TimeStamp: {type: Date, default: Date.now}
 });
  
 module.exports = mongoose.model('Comment_table', CommentSchema);
