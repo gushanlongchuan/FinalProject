@@ -23,9 +23,17 @@ router.get('/:stranger_id', function(req, res){
 	client.getResource('https://api.stormpath.com/v1/accounts/'+Stranger_id, function(err, strangerData){
 		s_id = strangerData.href;
 		Post.find({User_id: s_id},function(err, results){
-			var clickable = "true"
+			var U_id = req.user.href.split("/")[5];
+			var clickable;
 			if (err) return err
-			else res.render('stranger', {results : results, clickable:clickable})
+			else {
+				Friend.find({User_id:U_id, Friend_id:Stranger_id}, function(err, result){
+					console.log(result.length)
+					if (result.length == 0) clickable = "true";
+					else clickable = "false";
+					res.render('stranger', {results : results, clickable:clickable})
+				});
+			}
 		});
 	});
 });
@@ -44,7 +52,6 @@ router.post('/:stranger_id', function(req, res){
 			Friendname: S_username
 		}
 		Friend.create(followship, function(err, Friend){
-			console.log(Friend)
 			var clickable = "false"
 			if (err) return console.log(err)
 			else {

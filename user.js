@@ -17,13 +17,9 @@ stormpathAPI.loadApiKey('apiKey-212N7J7X3ZLZ23YTFP7OL972B.properties', function 
 
 router.get('/:user_id', function(req, res) {
 	var User_id = req.params.user_id;
-	var name;
-	client.getResource('https://api.stormpath.com/v1/accounts/'+User_id, function(err, userData){
-		name = userData.username
-		Post.find({Username: name},function(err, results){
-			if (err) return err
-			else res.render('user', {results : results})
-		});
+	Post.find({User_id: 'https://api.stormpath.com/v1/accounts/' + User_id},function(err, results){
+		if (err) return err
+		else res.render('user', {results : results})
 	});
 });	
 
