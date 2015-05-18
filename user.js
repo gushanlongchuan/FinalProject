@@ -22,7 +22,7 @@ router.get('/:user_id', function(req, res) {
 		name = userData.username
 		Post.find({Username: name},function(err, results){
 			if (err) return err
-			else res.render('user', {results : result})
+			else res.render('user', {results : results})
 		});
 	});
 });	
