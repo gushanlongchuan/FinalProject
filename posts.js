@@ -58,7 +58,6 @@ router.get('/', stormpath.loginRequired, function(req, res) {
 
 	// Search for post in the DB
 	id = req.originalUrl.split("/")[2]
-	console.log(id)
 	Post.findOne({ _id: id }, function(err, post) {
 
 		// Handle error
