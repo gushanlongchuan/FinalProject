@@ -13,7 +13,7 @@ html
           p
             a.small(href="newpost") Create a new post
           p 
-            a.small(href="user" + "/" + user.username) #{user.fullName}		  
+            a.small(href="user/"+user.href.split("/")[5]) #{user.fullName}		  
           a.btn.btn-primary(href="/logout") Logout
         else
           p Welcome to my app, ready to get started?
