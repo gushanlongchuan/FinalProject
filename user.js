@@ -24,7 +24,9 @@ router.get('/:user_id', function(req, res) {
 	var User_id = req.params.user_id;
 	var Pass = [];
 	Post.find({User_id: 'https://api.stormpath.com/v1/accounts/' + User_id},function(err, results){
-		
+		var User_pic = req.user.customData.profile_pic
+		if (User_pic == undefined) User_pic = 'images/default_profile.jpg';
+		if (err) return err;
 		results.forEach(function(eachPost, idx) {
 			var topass;
 			topass = {
@@ -49,8 +51,7 @@ router.get('/:user_id', function(req, res) {
 					Comments: []
 				},
 				//csrfToken: req.csrfToken()
-			}
-			//console.log(topass)		
+			}	
 			
 			Comment.find({ Post_id: eachPost._id }, function(err, comments) {
 				comments.forEach(function(com, idx) {
@@ -63,20 +64,17 @@ router.get('/:user_id', function(req, res) {
 							user_pic: commenterData.profile_pic || 'images/default_profile.jpg',
 							text: com.Content
 						})
-						//console.log(topass.post_data.Comments)
+						if (topass.post_data.Comments.length == comments.length)
+							Pass.push(topass)
+						if(Pass.length == results.length && topass.post_data.Comments.length == comments.length){
+							res.render('user', {result : Pass, User_pic:User_pic})
+						}
 					})
-					console.log(topass.post_data.Comments)
 				})
 			})
-			
-			Pass.push(topass)
 		})
 		//console.log(Pass)
 
-		var User_pic = req.user.customData.profile_pic
-		if (User_pic == undefined) User_pic = 'images/default_profile.jpg';
-		if (err) return err;
-		else res.render('user', {results : results, User_pic:User_pic})
 	});
 });	
 
