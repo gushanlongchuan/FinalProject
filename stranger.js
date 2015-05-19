@@ -28,10 +28,15 @@ router.get('/:stranger_id', function(req, res){
 			if (err) return err
 			else {
 				Friend.find({User_id:U_id, Friend_id:Stranger_id}, function(err, result){
-					console.log(result.length)
 					if (result.length == 0) clickable = "true";
 					else clickable = "false";
-					res.render('stranger', {results : results, clickable:clickable})
+					client.getResource(strangerData.customData.href, function(err, sCustomData){
+						var image_path = sCustomData.profile_pic;
+						if (image_path == undefined) image_path = 'images/default_profile.jpg';
+						console.log(image_path)
+						res.render('stranger', {results : results, clickable:clickable, strangerData: strangerData, User_pic:image_path})
+					})
+					
 				});
 			}
 		});
