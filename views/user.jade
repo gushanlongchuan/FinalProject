@@ -4,18 +4,24 @@ html
 		link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
 	body
 		div.container
-			div.jumbotron
+			
 				h1 Hello!
 					if user
-						p Welcome, #{user.fullName}
-						block content
+						ul
+						div.row
+							div.page-header(style="margin-top:10px")
+							img.img-circle(src='../'+User_pic+'?dim=60x60')
+							a.btn.btn-primary(href="/") home page
+							a.btn.btn-primary(href="/logout") Logout
 						#results
-						for picture in results	
-							include user_home
-						div.pull-right
-						p 
-						a.btn.btn-primary(href="/") home page
-						a.btn.btn-primary(href="/logout") Logout
+						for post_data in results
+							include user_home2
+						
+						
+						
+						
+						
+						
 					else
 						p
 							Welcome to my app, ready to get started?

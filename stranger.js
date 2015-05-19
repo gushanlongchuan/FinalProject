@@ -33,7 +33,6 @@ router.get('/:stranger_id', function(req, res){
 					client.getResource(strangerData.customData.href, function(err, sCustomData){
 						var image_path = sCustomData.profile_pic;
 						if (image_path == undefined) image_path = 'images/default_profile.jpg';
-						console.log(image_path)
 						res.render('stranger', {results : results, clickable:clickable, strangerData: strangerData, User_pic:image_path})
 					})
 					
@@ -43,6 +42,7 @@ router.get('/:stranger_id', function(req, res){
 	});
 });
 
+//add follow relationship
 router.post('/:stranger_id', function(req, res){
 	var Stranger_id = req.params.stranger_id;
 	var user_id = req.user.href.split("/")[5];
