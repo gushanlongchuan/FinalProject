@@ -19,6 +19,17 @@ html
             |  on #{post_data.Time}
         img.img-circle(src='../'+post_data.User_pic+'?dim=60x60')
 
+      if saved
+        div.alert.alert-success
+          span
+            strong Congratulations! 
+            | Your paiment was accepted. You successfully bought this item. Check your mailbox, you'll receive it soon!
+
+      if errors
+        each error in errors
+          div.alert.alert-danger
+            span #{error.error}
+
       div.row
         div.col-md-4
           img.img-responsive.img-rounded(src='../'+post_data.Image_path)
@@ -27,23 +38,24 @@ html
             h3=post_data.Title_of_post
             h4 Price: $#{post_data.Price}
           p=post_data.Description
-          button.btn.btn-primary(type="button", style="width:50%;") Buy
+          if sold
+            h3
+              span.label.label-danger This item has been sold
+          else
+            form(method='post')
+              input(name='_csrf', type='hidden', value=csrfToken)
+              input(name='type', type='hidden', value='buy')
+              button.btn.btn-primary(type="submit", style="width:50%;") Buy
 
       div.row
         h3 Comments
         each val in post_data.Comments
           +comment(val.user_pic, val.user_id, val.user_name, val.text)
         div.container
-          form(method='post')
+          form(name='comment', method='post')
             input(name='_csrf', type='hidden', value=csrfToken)
+            input(name='type', type='hidden', value='comment')
             img.img-circle(src='../'+user_data.User_pic+'?dim=40x40')
             textarea(name="comment", rows="1", style="height:30px; vertical-align: middle;", placeholder="Write a comment...")
             button.btn.btn-sm.btn-default(type="submit") Publish
 
-      if errors
-        each error in errors
-          div.alert.alert-danger
-            span #{error.error}
-      if saved
-        div.alert.alert-success
-          span Your item has been posted
