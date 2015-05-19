@@ -9,20 +9,19 @@ html
 		)
 		body
 			h2
-				div.row-md-4
-					img.img-responsive.img-rounded(src ='../' + each.post_data.Image_path, onclick = "imageClick('/posts/#{each.post_data._id}')",style="cursor:pointer;" )
-			
-				div.row
-					h3 Comments
-					each val in each.post_data.Comments
-						+comment(val.user_pic, val.user_id, val.user_name, val.text)
-					div.container
-						form(name='comment', method='post')
-							input(name='_csrf', type='hidden', value=csrfToken)
-							input(name='type', type='hidden', value='comment')
-							img.img-circle(src='../'+each.user_data.User_pic+'?dim=40x40')
-							textarea(name="comment", rows="1", style="height:30px; vertical-align: middle;", placeholder="Write a comment...")
-							button.btn.btn-sm.btn-default(type="submit") Publish
+				div.row(align = "center")
+					img.img-responsive.img-rounded(src ='../' + each.post_data.Image_path, onclick = "imageClick('/posts/#{each.post_data._id}')",style="cursor:pointer;", width="600" height="600" )
+					div.row(align = "justify", style="padding-left: 230px;")
+						h4 Comments
+						each val in each.post_data.Comments
+							+comment(val.user_pic, val.user_id, val.user_name, val.text)
+						div.container
+							form(name='comment', method='post')
+								input(name='_csrf', type='hidden', value=csrfToken)
+								input(name='type', type='hidden', value='comment')
+								img.img-circle(src='../'+each.user_data.User_pic+'?dim=40x40')
+								textarea(name="comment", rows="1", style="height:30px; vertical-align: middle;", placeholder="Write a comment...")
+								button.btn.btn-sm.btn-default(type="submit") Publish
 			script.
 				function imageClick(url) {
 					console.log(url)
