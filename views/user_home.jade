@@ -7,8 +7,8 @@ html
 		)
 		body
 			p
-			div.col-md-4
-				img.img-responsive.img-rounded(src ='../' + picture.Image_path, onclick = "imageClick('/posts/#{picture._id}')",style="cursor:pointer;" )
+			div.col-md-3
+				img.img-responsive.img-rounded(src ='../' + picture.Image_path, onclick = "imageClick('/posts/#{picture._id}')",style="cursor:pointer;",width="600", height="600" )
 			script.
 				function imageClick(url) {
 					window.location = url;

@@ -1,13 +1,13 @@
-html
-	head
-		title=title
-		link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
-	body
-		div.container
 
+include mixins/comment
+extends ./layout.jade
+block title
+	title=title
+block content
+		div.container
 					if user
 						div.row
-							div.page-header(style="margin-top:100px")
+							div.page-header(style="margin-top:10px")
 							img.img-circle(src='../'+User_pic+'?dim=60x60')
 							h5
 								p
@@ -17,7 +17,6 @@ html
 									input(name= 'button1',type = "submit", value = "following", disabled)
 								else
 									input(name= 'button1',type = "submit", value = "follow")
-						block content
 						#results
 						for picture in results	
 							include user_home
@@ -41,5 +40,3 @@ html
 							span.small Don't have an account?
 							span &nbsp;
 							a.small(href="/register") Register now
-
-		div.container

@@ -26,7 +26,7 @@ var topass;
 
 //Process POST
 router.post('/', stormpath.loginRequired, function(req, res) {
-
+	console.log(req)
 	id = req.originalUrl.split("/")[2]
 
 	// if button BUY
@@ -151,6 +151,7 @@ router.get('/', stormpath.loginRequired, function(req, res) {
 							text: com.Content
 						})
 						if (topass.post_data.Comments.length == comments.length) {
+							console.log(topass)
 							res.render('posts', extend(topass))
 						}
 					})
