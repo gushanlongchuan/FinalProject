@@ -13,9 +13,9 @@ html
 							img.img-circle(src='../'+User_pic+'?dim=60x60')
 							a.btn.btn-primary(href="/") home page
 							a.btn.btn-primary(href="/logout") Logout
-						#results
-						for each in result
-							include user_home2
+						if result
+							for each in result
+								include user_home2
 							
 						
 						

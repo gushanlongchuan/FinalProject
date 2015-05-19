@@ -50,6 +50,7 @@ router.post('/:stranger_id', function(req, res){
 	client.getResource('https://api.stormpath.com/v1/accounts/'+Stranger_id, function(err, strangerData){
 		var S_username = strangerData.username;
 		var s_id = strangerData.href;
+		var User_pic = strangerData.customData.pic
 		var followship = {
 			User_id: user_id,
 			Friend_id: Stranger_id,
@@ -63,7 +64,13 @@ router.post('/:stranger_id', function(req, res){
 				Post.find({User_id: s_id},function(err, results){
 					var clickable = "false"
 					if (err) return err
-					else res.render('stranger', {results : results, clickable:clickable})
+					else {
+						client.getResource(strangerData.customData.href, function(err, sCustomData){
+							var image_path = sCustomData.profile_pic;
+							if (image_path == undefined) image_path = 'images/default_profile.jpg';
+							res.render('stranger', {results : results, clickable:clickable,strangerData: strangerData, User_pic:image_path})
+						})
+					}
 				});
 			}
 		})
