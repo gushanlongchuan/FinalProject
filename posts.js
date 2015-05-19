@@ -151,10 +151,13 @@ router.get('/', stormpath.loginRequired, function(req, res) {
 							user_pic: commenterData.profile_pic || 'images/default_profile.jpg',
 							text: com.Content
 						})
+						if (topass.post_data.Comments.length == comments.length) {
+							res.render('posts', extend(topass))
+						}
 					})
 				})
 				// Render to the view all the information about the post and the seller
-				if (topass.post_data.Comments.length == comments.length) {
+				if (comments.length == 0) {
 					res.render('posts', extend(topass))
 				}
 			})

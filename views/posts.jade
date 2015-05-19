@@ -1,13 +1,12 @@
 include mixins/comment
 
-html
-  head
-    title=title
-    link(
-      href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css',
-      rel='stylesheet'
-    )
-  body
+extends ./layout.jade
+
+block title
+  title=title
+
+block content
+
     div.container
 
       div.page-header
@@ -17,7 +16,8 @@ html
             | Posted by 
             a(href='../stranger/'+post_data.User_id) #{post_data.Username}
             |  on #{post_data.Time}
-        img.img-circle(src='../'+post_data.User_pic+'?dim=60x60')
+        a(href='../stranger/'+post_data.User_id)
+          img.img-circle(src='../'+post_data.User_pic+'?dim=60x60')
 
       if saved
         div.alert.alert-success
