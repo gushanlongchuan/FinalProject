@@ -1,4 +1,4 @@
-include ./comment
+include	../mixins/comment
 mixin user_function(each)
 			div.container
 				div.row(align = "center")
@@ -6,7 +6,7 @@ mixin user_function(each)
 					div.row(align = "justify", style="padding-left: 230px;")
 						h4 Comments
 						each val in each.content.post_data.Comments
-							+comment(val.user_pic, val.user_id, val.user_name, val.text)
+							+comment(val.user_pic, val.user_id, val.user_name, val.text, each.content.user_data.User_id.split('/')[5])
 						div.container
 							form(name='comment', method='post', action ="/user/#{each.post_id}")
 								input(name='_csrf', type='hidden', value=csrfToken)

@@ -46,12 +46,12 @@ router.post('/:post_id', stormpath.loginRequired, function(req, res) {
 			})
 		}
 	})
-	
+	console.log(testPass)
 	res.render('user', {result:testPass})
 })
 
 router.get('/:user_id', function(req, res) {
-	var User_id = req.params.user_id;
+	var User_id = req.user.href.split("/")[5];
 	Pass=[];
 	testPass = [];
 	Post.find({User_id: 'https://api.stormpath.com/v1/accounts/' + User_id},function(err, results){
@@ -108,6 +108,7 @@ router.get('/:user_id', function(req, res) {
 							
 						if(Pass.length == results.length && topass.post_data.Comments.length == comments.length){
 							//res.render('user', {result : Pass})
+							console.log(testPass)
 							res.render('user', {result:testPass})
 						}
 					})

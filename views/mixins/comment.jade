@@ -1,5 +1,8 @@
-mixin comment(user_pic, user_id, user_name, text)
+mixin comment(user_pic, user_id, user_name, text, current_user_id)
   div.container
     img.img-circle(src='../'+user_pic+'?dim=40x40')
-    a.b(href='../user/'+user_id) #{user_name}
+    if (user_id == current_user_id)
+       a.b(href='../user/'+user_id) #{user_name}
+    else
+       a.b(href='../stranger/'+user_id) #{user_name}
     |  #{text}

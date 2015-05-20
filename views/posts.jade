@@ -50,7 +50,7 @@ block content
       div.row
         h3 Comments
         each val in post_data.Comments
-          +comment(val.user_pic, val.user_id, val.user_name, val.text)
+          +comment(val.user_pic, val.user_id, val.user_name, val.text, user_data.User_id.split('/')[5])
         div.container
           form(name='comment', method='post')
             input(name='_csrf', type='hidden', value=csrfToken)
