@@ -50,7 +50,7 @@ router.post('/:post_id', stormpath.loginRequired, function(req, res) {
 	res.render('user', {result:testPass})
 })
 
-router.get('/:user_id', function(req, res) {
+router.get('/', function(req, res) {
 	var User_id = req.user.href.split("/")[5];
 	Pass=[];
 	testPass = [];
