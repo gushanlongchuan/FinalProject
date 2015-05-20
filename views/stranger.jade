@@ -6,7 +6,7 @@ block title
 block content
 		div.container
 					if user
-						div.row
+						div.col-md-6(align = "center")
 							div.page-header(style="margin-top:10px")
 							img.img-circle(src='../'+User_pic+'?dim=60x60')
 							h5
@@ -17,9 +17,21 @@ block content
 									input(name= 'button1',type = "submit", value = "following", disabled)
 								else
 									input(name= 'button1',type = "submit", value = "follow")
+						div.col-md-6(align = "left")
+							div.page-header(style="margin-top:30px")
+							div.col-md-3(align = "center")
+								p posts
+								h5 #{posts}
+							div.col-md-3(align = "center")
+								p followers
+								h5 #{followers}
+							div.col-md-3(align = "center")
+								p following
+								h5 #{following}
+						div.container
 						#results
-						for picture in results	
-							include user_home
+							for picture in results	
+								include user_home
 					
 
 
