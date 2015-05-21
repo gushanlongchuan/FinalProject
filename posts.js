@@ -26,7 +26,6 @@ var topass;
 
 //Process POST
 router.post('/', stormpath.loginRequired, function(req, res) {
-	console.log(req)
 	id = req.originalUrl.split("/")[2]
 
 	// if button BUY
