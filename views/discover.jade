@@ -12,13 +12,12 @@ html
         h1 Discover
 
         if dis
-         for each in images
+         for each,i in images
             p
-            img(src=each,width="600", height="600")
+            img(src=each,width="600", height="600", onclick="imageClick('/posts/#{posts[i]}')")
             p
-            a.btn.btn-primary(href="follow") Follow
-        else
-          p jhfjkasdfhkasd
+          a.btn.btn-primary(href="/") Return to home page
+
   script.
         function imageClick(url) {
           console.log(url)
