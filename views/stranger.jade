@@ -13,6 +13,9 @@ block content
 								p
 								a(href='../stranger/'+strangerData.href.split("/")[5]) #{strangerData.fullName}
 							form(name = 'form1', method = "post")
+								input(name='posts',type='hidden',value=posts)
+								input(name='following',type='hidden',value=following)
+								input(name='followers',type='hidden',value=followers)
 								if clickable == 'false'
 									input(name= 'button1',type = "submit", value = "following", disabled)
 								else

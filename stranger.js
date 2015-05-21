@@ -39,7 +39,7 @@ router.get('/:stranger_id', function(req, res){
 							var following_num = following;
 							Friend.count({Friend_id:Stranger_id}, function(err,followee){
 								var followee_num = followee;
-								res.render('stranger', {results : results, clickable:clickable, strangerData: strangerData, User_pic:image_path, followers:followee_num, following:following_num, posts:post_num })
+								res.render('stranger', {results : results, clickable:clickable, strangerData: strangerData, User_pic:image_path, followers:followee_num, following:following_num, posts:post_num})
 
 							})
 						})
@@ -56,6 +56,10 @@ router.get('/:stranger_id', function(req, res){
 router.post('/:stranger_id', function(req, res){
 	var Stranger_id = req.params.stranger_id;
 	var user_id = req.user.href.split("/")[5];
+	var post_num = req.body.posts;
+	var following_num = req.body.following;
+	var followee_num = parseInt(req.body.followers, 10);
+	
 	var usrname = req.user.username;
 	client.getResource('https://api.stormpath.com/v1/accounts/'+Stranger_id, function(err, strangerData){
 		var S_username = strangerData.username;
@@ -78,7 +82,8 @@ router.post('/:stranger_id', function(req, res){
 						client.getResource(strangerData.customData.href, function(err, sCustomData){
 							var image_path = sCustomData.profile_pic;
 							if (image_path == undefined) image_path = 'images/default_profile.jpg';
-							res.render('stranger', {results : results, clickable:clickable,strangerData: strangerData, User_pic:image_path})
+							followee_num = followee_num + 1;
+							res.render('stranger', {results : results, clickable:clickable,strangerData: strangerData, User_pic:image_path,followers:followee_num, following:following_num, posts:post_num})
 						})
 					}
 				});
