@@ -1,16 +1,38 @@
 include ./comment
-mixin user_function(each)
-			div.container
-				div.row(align = "center")
-					img.img-responsive.img-rounded(src ='../' + each.content.post_data.Image_path, onclick = "imageClick('/posts/#{each.content.post_data._id}')",style="cursor:pointer;", width="600", height="600" )
-					div.row(align = "justify", style="padding-left: 230px;")
-						h4 Comments
-						each val in each.content.post_data.Comments
-							+comment(val.user_pic, val.user_id, val.user_name, val.text, each.content.user_data.User_id.split('/')[5])
-						div.container
-							form(name='comment', method='post', action ="/user/#{each.post_id}")
+mixin user_function(each, following,followers,posts)
+			div.col
+				div.container(align = "justify")
+					div.container(align = "justify",style="padding-left: 190px;")
+						img.img-responsive.img-rounded(src ='../' + each.content.post_data.Image_path, onclick = "imageClick('/posts/#{each.content.post_data._id}')",style="cursor:pointer;", width="570", height="550" )
+					div.container(align = "justify",style="padding-left: 170px;")
+						div.container(style="width:800px;", align="left")
+							div.col-md-4
+								h4 Comments
+							div.col-md-4
+								if (each.content.post_data.Status == 1)
+									h4(style="color:#0000FF") Sold Out
+								else
+									h4(style="color:#00FF00") In Stock
+							div.col-md-4()
+								form(name='delete_post', method = 'post', action ="/user")
+									input(name='_csrf', type='hidden', value='csrfToken')
+									input(name='type', type='hidden', value='delete')
+									input(name='post_id' type='hidden',value=each.post_id)
+									input(name='posts',type='hidden',value=posts)
+									input(name='following',type='hidden',value=following)
+									input(name='followers',type='hidden',value=followers)
+									button(type="submit") Delete
+						div.container(align = "left")
+							each val in each.content.post_data.Comments
+								+comment(val.user_pic, val.user_id, val.user_name, val.text, each.content.user_data.User_id.split('/')[5])
+						div.container(align = "left",style="padding-left: 28px;")
+							form(name='comment', method='post', action ="/user")
 								input(name='_csrf', type='hidden', value=csrfToken)
 								input(name='type', type='hidden', value='comment')
+								input(name='post_id',type='hidden',value=each.post_id)
+								input(name='posts',type='hidden',value=posts)
+								input(name='following',type='hidden',value=following)
+								input(name='followers',type='hidden',value=followers)
 								img.img-circle(src='../'+each.content.user_data.User_pic+'?dim=40x40')
 								textarea(name="comment", rows="1", style="height:30px; vertical-align: middle;", placeholder="Write a comment...")
 								button.btn.btn-sm.btn-default(type="submit") Publish

@@ -22,34 +22,54 @@ stormpathAPI.loadApiKey('apiKey-212N7J7X3ZLZ23YTFP7OL972B.properties', function 
 
 var testPass=[];
 var Pass=[];
-router.post('/:post_id', stormpath.loginRequired, function(req, res, locals) {
-	id = req.params.post_id;
-	newcomment = {
-		Post_id: req.originalUrl.split("/")[2],
-		User_id: req.user.href,
-		Username: req.user.givenName.charAt(0).toUpperCase() + req.user.givenName.toLowerCase().slice(1) + ' ' + req.user.surname.charAt(0).toUpperCase() + req.user.surname.toLowerCase().slice(1),
-		Content: req.body.comment
-	}
-		//Insert it in the DB
-	Comment.create(newcomment, function(err, comment) {
-		if (err) {
-				console.log(err)
-		}
-	})
+
+router.post('/', stormpath.loginRequired, function(req, res, locals) {
+	id = req.body.post_id;
+	var post_num = req.body.posts;
+	var following_num = req.body.following;
+	var followee_num = req.body.followers;
 	
-	testPass.forEach(function(eachPost, idx) {
-		if(eachPost.post_id == id){
-			eachPost.content.post_data.Comments.push({
-				user_id: newcomment.User_id.split("/")[5],
-				user_name: newcomment.Username,
-				user_pic: req.user.customData.profile_pic || 'images/default_profile.jpg',
-				text: newcomment.Content
+	var User_pic = req.user.customData.profile_pic
+	if(req.body.type == "delete"){
+		Post.remove({_id:id},function(err, leftover){
+			if(err) return err;
+			testPass.forEach(function(eachPost, idx) {
+				if(eachPost.post_id == id){
+					testPass.splice(idx, 1);
+				}
 			})
+			post_num = post_num - 1;
+			res.render('user', extend({result:testPass,User_pic:User_pic,posts:post_num,following:following_num,followers:followee_num}, locals||{}))
+		})
+	}
+	else{
+		newcomment = {
+			Post_id: id,
+			User_id: req.user.href,
+			Username: req.user.givenName.charAt(0).toUpperCase() + req.user.givenName.toLowerCase().slice(1) + ' ' + req.user.surname.charAt(0).toUpperCase() + req.user.surname.toLowerCase().slice(1),
+			Content: req.body.comment
 		}
-	})
-	console.log(testPass)
-	res.render('user', extend({result:testPass}, locals||{}))
-})
+
+		//Insert it in the DB
+		Comment.create(newcomment, function(err, comment) {
+			if (err) {
+					console.log(err)
+			}
+		})
+		
+		testPass.forEach(function(eachPost, idx) {
+			if(eachPost.post_id == id){
+				eachPost.content.post_data.Comments.push({
+					user_id: newcomment.User_id.split("/")[5],
+					user_name: newcomment.Username,
+					user_pic: req.user.customData.profile_pic || 'images/default_profile.jpg',
+					text: newcomment.Content
+				})
+			}
+		})
+		res.render('user', extend({result:testPass,User_pic:User_pic,posts:post_num,following:following_num,followers:followee_num}, locals||{}))
+	}
+});
 
 router.get('/', function(req, res, locals) {
 	var U_id = req.user.href.split("/")[5];
@@ -58,15 +78,15 @@ router.get('/', function(req, res, locals) {
 		var User_pic = req.user.customData.profile_pic
 		
 		var post_num = results.length;
-		if (User_pic == undefined) User_pic = 'images/default_profile.jpg';
+		if (User_pic == undefined || !User_pic) User_pic = 'images/default_profile.jpg';
 		if (err) return err;
 		Friend.count({User_id:U_id}, function(err,following){
 			var following_num = following;
 			Friend.count({Friend_id:U_id}, function(err,followee){
 				var followee_num = followee;
-				if (results.length == 0)
-					res.render('user', extend({User_pic:User_pic,followers:followee_num, following:following_num, posts:post_num}, locals||{}))
-				
+				if (results.length == 0){
+					res.render('user', extend({posts:post_num,following:following_num,followers:followee_num,User_pic:User_pic}, locals||{}))
+				}
 				results.forEach(function(eachPost, idx) {
 					var topass;
 					topass = {
@@ -89,6 +109,7 @@ router.get('/', function(req, res, locals) {
 							Username: eachPost.Username,
 							User_pic: req.user.customData.profile_pic || 'images/default_profile.jpg',
 							_id: eachPost._id,
+							Status:eachPost.Status,
 							Comments: []
 						},
 						//csrfToken: req.csrfToken()
@@ -122,7 +143,7 @@ router.get('/', function(req, res, locals) {
 										})
 									}
 									if(testPass.length == results.length && topass.post_data.Comments.length == comments.length){
-										res.render('user', extend({User_pic:User_pic,result:testPass,followers:followee_num, following:following_num, posts:post_num}, locals||{}))
+										res.render('user', extend({posts:post_num,following:following_num,followers:followee_num,User_pic:User_pic,result:testPass}, locals||{}))
 									}
 								})
 							})

@@ -1,0 +1,32 @@
+#homepageBackground {
+  background-image: url("http://workexpert.ru/wp-content/uploads/VideoTherapyWomanBeachLaptopSMer-1200x797.jpeg");
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#homepageContainer {
+
+}
+
+div.jumbotron#homepage {
+/*  opacity: 0.9;*/
+  margin-top: 70;
+  float: right;
+  background: transparent;
+}
+
+h1#homepage {
+  text-align: right;
+  font-family: 'Oleo Script', Helvetica, sans-serif;
+  font-style: bold;
+  font-size: 80;
+}
+
+h2#homepage {
+  text-align: right;
+  margin-bottom: 50;
+}
+
+p#homepage {
+  text-align: right;
+}

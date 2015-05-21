@@ -1,26 +1,21 @@
-html
-  head
-    title=title
-    link(
-      href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css',
-      rel='stylesheet'
-    )
-  body
-    div.container
+extends ./layout.jade
+block title=title
 
-      div.page-header
-        h1 Discover
+block content
+  div.container
 
-        if dis
-         for each in images
-            p
-            img(src=each,width="600", height="600")
-            p
-            a.btn.btn-primary(href="follow") Follow
-        else
-          p jhfjkasdfhkasd
-  script.
-        function imageClick(url) {
-          console.log(url)
-          window.location = url;
-        }
+    div.page-header
+      h1 Discover
+
+      if dis
+       for each,i in images
+          p
+          img(src=each,width="600", height="600", onclick="imageClick('/posts/#{posts[i]}')")
+          p
+        a.btn.btn-primary(href="/") Return to home page
+
+        script.
+              function imageClick(url) {
+                console.log(url)
+                window.location = url;
+              }
