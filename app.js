@@ -33,7 +33,12 @@ mongoose.connect('mongodb://gushan:gs524410@ds061721.mongolab.com:61721/finalpro
 	}
 })
 
-app.use('/', stormpath.loginRequired, require('./home'));
+app.get('/', function(req, res) {
+  res.render('home', {
+    title: 'Welcome'
+  });
+});
+
 app.use('/profile',stormpath.loginRequired,require('./profile')());
 app.use('/user',stormpath.loginRequired,require('./user'));
 app.use('/newpost',stormpath.loginRequired,require('./newpost'));
