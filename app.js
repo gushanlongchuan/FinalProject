@@ -44,4 +44,5 @@ app.use('/user',stormpath.loginRequired,require('./user'));
 app.use('/newpost',stormpath.loginRequired,require('./newpost'));
 app.use('/stranger',stormpath.loginRequired,require('./stranger'));
 app.use('/posts/:id', stormpath.loginRequired, require('./posts'));
+app.use('/discover',stormpath.loginRequired,require('./discover'));
 app.listen(3000);
