@@ -25,8 +25,8 @@ stormpathAPI.loadApiKey('apiKey-212N7J7X3ZLZ23YTFP7OL972B.properties', function 
 var topass;
 
 //Process POST
-router.post('/', stormpath.loginRequired, function(req, res) {
-	console.log(req)
+router.post('/', stormpath.loginRequired, function(req, res, locals) {
+	
 	id = req.originalUrl.split("/")[2]
 
 	// if button BUY
@@ -89,12 +89,12 @@ router.post('/', stormpath.loginRequired, function(req, res) {
 			}
 		})
 	}
-	res.render('posts', extend(topass))
-
+	res.render('posts', extend(topass,locals||{}))
+	
 })
 
 //Process GET
-router.get('/', stormpath.loginRequired, function(req, res) {
+router.get('/', stormpath.loginRequired, function(req, res, locals) {
 
 	// Search for post in the DB
 	id = req.originalUrl.split("/")[2]
@@ -151,14 +151,13 @@ router.get('/', stormpath.loginRequired, function(req, res) {
 							text: com.Content
 						})
 						if (topass.post_data.Comments.length == comments.length) {
-							console.log(topass)
-							res.render('posts', extend(topass))
+							res.render('posts', extend(topass,locals||{}))
 						}
 					})
 				})
 				// Render to the view all the information about the post and the seller
 				if (comments.length == 0) {
-					res.render('posts', extend(topass))
+					res.render('posts', extend(topass,locals||{}))
 				}
 			})
 		})

@@ -44,7 +44,7 @@ router.use(multer({ dest: './images/'}))
 router.use(csurf({ sessionKey: 'stormpathSession' }));
 
 //Process GET and POST
-router.all('/', stormpath.loginRequired, function(req, res) {
+router.all('/', stormpath.loginRequired, function(req, res, locals) {
 	newpostForm.handle(req, {
 		success: function(form) {
 			//form posted		
@@ -60,18 +60,18 @@ router.all('/', stormpath.loginRequired, function(req, res) {
 				}
 			})
 			//show the user that his post has been saved
-			renderForm(req,res,{
+			renderForm(req,res,extend({
 				saved:true
-			});
+			}, locals||{}));
 		},
 		error: function(form) {
 			//error in the form
-			renderForm(req,res);
+			renderForm(req,res, locals);
 			console.log(form)
 		},
 		empty: function(form) {
 			//no data in the form
-			renderForm(req,res);
+			renderForm(req,res, locals);
 		}
 	})
 	

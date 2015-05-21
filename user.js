@@ -22,7 +22,7 @@ stormpathAPI.loadApiKey('apiKey-212N7J7X3ZLZ23YTFP7OL972B.properties', function 
 
 var testPass=[];
 var Pass=[];
-router.post('/:post_id', stormpath.loginRequired, function(req, res) {
+router.post('/:post_id', stormpath.loginRequired, function(req, res, locals) {
 	id = req.params.post_id;
 	newcomment = {
 		Post_id: req.originalUrl.split("/")[2],
@@ -48,10 +48,10 @@ router.post('/:post_id', stormpath.loginRequired, function(req, res) {
 		}
 	})
 	console.log(testPass)
-	res.render('user', {result:testPass})
+	res.render('user', extend({result:testPass}, locals||{}))
 })
 
-router.get('/', function(req, res) {
+router.get('/', function(req, res, locals) {
 	var U_id = req.user.href.split("/")[5];
 	testPass = [];
 	Post.find({User_id: 'https://api.stormpath.com/v1/accounts/' + U_id},function(err, results){
@@ -65,7 +65,7 @@ router.get('/', function(req, res) {
 			Friend.count({Friend_id:U_id}, function(err,followee){
 				var followee_num = followee;
 				if (results.length == 0)
-					res.render('user', {User_pic:User_pic,followers:followee_num, following:following_num, posts:post_num})
+					res.render('user', extend({User_pic:User_pic,followers:followee_num, following:following_num, posts:post_num}, locals||{}))
 				
 				results.forEach(function(eachPost, idx) {
 					var topass;
@@ -101,7 +101,7 @@ router.get('/', function(req, res) {
 								content:topass
 							})
 							if(testPass.length == results.length){
-								res.render('user', {result:testPass,followers:followee_num, following:following_num, posts:post_num})
+								res.render('user', extend({result:testPass,followers:followee_num, following:following_num, posts:post_num}, locals||{}))
 							}
 						}
 						else{
@@ -122,7 +122,7 @@ router.get('/', function(req, res) {
 										})
 									}
 									if(testPass.length == results.length && topass.post_data.Comments.length == comments.length){
-										res.render('user', {User_pic:User_pic,result:testPass,followers:followee_num, following:following_num, posts:post_num})
+										res.render('user', extend({User_pic:User_pic,result:testPass,followers:followee_num, following:following_num, posts:post_num}, locals||{}))
 									}
 								})
 							})
