@@ -16,8 +16,10 @@ block content
 								input(name='posts',type='hidden',value=posts)
 								input(name='following',type='hidden',value=following)
 								input(name='followers',type='hidden',value=followers)
+								input(name='stranger_href', type='hidden',value=strangerData.href)
+								input(name='user_pic',type='hidden',value=User_pic)
 								if clickable == 'false'
-									input(name= 'button1',type = "submit", value = "following", disabled)
+									input(name= 'button1',type = "submit", value = "following")
 								else
 									input(name= 'button1',type = "submit", value = "follow")
 						div.col-md-6(align = "left")
@@ -36,12 +38,6 @@ block content
 							for picture in results	
 								include user_home
 					
-
-
-
-
-
-
 
 
 

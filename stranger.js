@@ -58,38 +58,55 @@ router.post('/:stranger_id', function(req, res, locals){
 	var user_id = req.user.href.split("/")[5];
 	var post_num = req.body.posts;
 	var following_num = req.body.following;
-	var followee_num = parseInt(req.body.followers, 10);
-	
+	var followee_num = parseInt(req.body.followers, 10);	
 	var usrname = req.user.username;
-	client.getResource('https://api.stormpath.com/v1/accounts/'+Stranger_id, function(err, strangerData){
-		var S_username = strangerData.username;
-		var s_id = strangerData.href;
-		var User_pic = strangerData.customData.pic
-		var followship = {
-			User_id: user_id,
-			Friend_id: Stranger_id,
-			Username: usrname,
-			Friendname: S_username
-		}
-		Friend.create(followship, function(err, Friend){
-			var clickable = "false"
-			if (err) return console.log(err)
-			else {
-				Post.find({User_id: s_id},function(err, results){
-					var clickable = "false"
-					if (err) return err
-					else {
-						client.getResource(strangerData.customData.href, function(err, sCustomData){
-							var image_path = sCustomData.profile_pic;
-							if (image_path == undefined) image_path = 'images/default_profile.jpg';
-							followee_num = followee_num + 1;
-							res.render('stranger', extend({results : results, clickable:clickable,strangerData: strangerData, User_pic:image_path,followers:followee_num, following:following_num, posts:post_num}, locals||{}))
-						})
-					}
-				});
+	if(req.body.button1 == "follow"){
+		client.getResource('https://api.stormpath.com/v1/accounts/'+Stranger_id, function(err, strangerData){
+			var S_username = strangerData.username;
+			var s_id = strangerData.href;
+			var User_pic = strangerData.customData.pic
+			var followship = {
+				User_id: user_id,
+				Friend_id: Stranger_id,
+				Username: usrname,
+				Friendname: S_username
 			}
+			Friend.create(followship, function(err, Friend){
+				var clickable = "false"
+				if (err) return console.log(err)
+				else {
+					Post.find({User_id: s_id},function(err, results){
+						var clickable = "false"
+						if (err) return err
+						else {
+							client.getResource(strangerData.customData.href, function(err, sCustomData){
+								var image_path = sCustomData.profile_pic;
+								if (image_path == undefined) image_path = 'images/default_profile.jpg';
+								followee_num = followee_num + 1;
+								res.render('stranger', extend({results : results, clickable:clickable,strangerData: strangerData, User_pic:image_path,followers:followee_num, following:following_num, posts:post_num}, locals||{}))
+							})
+						}
+					});
+				}
+			})
+		});
+	}
+	else if(req.body.button1 == "following"){
+		var s_id = req.body.stranger_href;
+		var user_pic = req.body.user_pic;
+		var results = [];
+		Friend.remove({ User_id: user_id, Friend_id:Stranger_id}, function(err){
+			clickable = "true";
+			client.getResource(s_id, function(err, strangerData){
+				var image_path = user_pic;
+				followee_num = followee_num - 1;
+				Post.find({User_id: s_id},function(err, results){
+					if (err) return err;
+					else res.render('stranger', extend({results : results, clickable:clickable,strangerData: strangerData, User_pic:image_path,followers:followee_num, following:following_num, posts:post_num}, locals||{}))
+				});	
+			})
 		})
-	});
+	}
 });
 
 module.exports = router;

@@ -47,7 +47,6 @@ app.get('/', function(req, res) {
   });
 });
 
-
 io.on('connection', function ( socket ) {
   console.log('yessss')
   //socket.emit('connect', { hello: 'world' });
@@ -79,6 +78,7 @@ app.use(stormpath.loginRequired, function(req, res, next) {
   next()
 })
 
+app.use('/home',stormpath.loginRequired,require('./loginhome'));
 app.use('/profile',stormpath.loginRequired,require('./profile')());
 app.use('/user',stormpath.loginRequired,require('./user'));
 app.use('/newpost',stormpath.loginRequired,require('./newpost'));
