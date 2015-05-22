@@ -128,10 +128,6 @@ app.use(stormpath.loginRequired, function(req, res, next) {
   next()
 })
 
-<<<<<<< HEAD
-=======
-//app.use('/home',stormpath.loginRequired,require('./loginhome'));
->>>>>>> 757814746e1170b38f52e6744b1b6d06aa6cdb75
 app.use('/profile',stormpath.loginRequired,require('./profile')());
 app.use('/user',stormpath.loginRequired,require('./user'));
 app.use('/newpost',stormpath.loginRequired,require('./newpost'));
