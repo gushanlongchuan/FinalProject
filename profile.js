@@ -52,7 +52,7 @@ module.exports = function profile(){
   // Capture all requests, the form library will negotiate
   // between GET and POST requests
 
-  router.all('/', function(req, res) {
+  router.all('/', function(req, res, locals) {
     profileForm.handle(req,{
       success: function(form){
         // The form library calls this success method if the
@@ -73,16 +73,16 @@ module.exports = function profile(){
             if(err.developerMessage){
               console.error(err);
             }
-            renderForm(req,res,{
+            renderForm(req,res,extend({
               errors: [{
                 error: err.userMessage ||
                 err.message || String(err)
               }]
-            });
+            }, locals||{}));
           }else{
-            renderForm(req,res,{
+            renderForm(req,res,extend({
               saved:true
-            });
+            }, locals||{}));
           }
         });
       },
@@ -91,15 +91,15 @@ module.exports = function profile(){
         // has validation errors.  We will collect the errors
         // and render the form again, showing the errors
         // to the user
-        renderForm(req,res,{
+        renderForm(req,res,extend({
           errors: collectFormErrors(form)
-        });
+        }, locals||{}));
       },
       empty: function(){
         // The form library calls this method if the
         // method is GET - thus we just need to render
         // the form
-        renderForm(req,res);
+        renderForm(req,res,locals);
       }
     });
   });
@@ -114,9 +114,9 @@ module.exports = function profile(){
       if(req.user){
         // session token is invalid or expired.
         // render the form anyways, but tell them what happened
-        renderForm(req,res,{
+        renderForm(req,res,extend({
           errors:[{error:'Your form has expired.  Please try again.'}]
-        });
+        }, locals||{}));
       }else{
         // the user's cookies have been deleted, we dont know
         // their intention is - send them back to the home page

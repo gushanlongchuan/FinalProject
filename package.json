@@ -26,6 +26,8 @@
     "underscore": "*",
     "multer": "*",
     "quickthumb": "*",
-    "moment": "*"
+    "moment": "*",
+    "socket.io": "*",
+    "http": "*"
   }
 }
