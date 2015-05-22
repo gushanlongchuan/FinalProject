@@ -61,6 +61,9 @@ io.on('connection', function ( socket ) {
 // Use middleware for layout notifications
 app.use(stormpath.loginRequired, function(req, res, next) {
 
+  //Push profile pic
+  res.locals['profile_pic'] = req.user.customData.profile_pic || 'images/default_profile.jpg'
+  //Push notifications
   Notif.find({User_id: req.user.href.split("/")[5]}, function(err, notifs) {
     if (notifs.length > 0) {
       res.locals['notifs'] = []
