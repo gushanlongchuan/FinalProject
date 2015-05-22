@@ -1,12 +1,10 @@
 #homepageBackground {
-  background-image: url("http://workexpert.ru/wp-content/uploads/VideoTherapyWomanBeachLaptopSMer-1200x797.jpeg");
+ /* background-image: url("http://workexpert.ru/wp-content/uploads/VideoTherapyWomanBeachLaptopSMer-1200x797.jpeg");*/
   background-size: 100%;
   background-repeat: no-repeat;
 }
 
-#homepageContainer {
 
-}
 
 div.jumbotron#homepage {
 /*  opacity: 0.9;*/
