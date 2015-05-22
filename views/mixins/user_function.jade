@@ -1,19 +1,21 @@
 include ./comment
 mixin user_function(each, following,followers,posts)
 			div.col
-				div.container(align = "justify")
-					div.container(align = "justify",style="padding-left: 190px;")
+				div.container(align = "center",style="background:#DFDFDF;width:650px;box-shadow:0px 0px 23px 0px #888888;margin-bottom:50px")
+					div.container(align = "justify",style="padding-left:30px;margin-top:0px;")
 						img.img-responsive.img-rounded(src ='../' + each.content.post_data.Image_path, onclick = "imageClick('/posts/#{each.content.post_data._id}')",style="cursor:pointer;", width="570", height="550" )
-					div.container(align = "justify",style="padding-left: 170px;")
-						div.container(style="width:800px;", align="left")
-							div.col-md-4
-								h4 Comments
-							div.col-md-4
+					div.container(align = "justify",style="padding-left: 30px; margin-bottom:0px;")
+						div.container(style="width:570px; margin-left: 0px;background:#FFFFFF;", align="left")
+							div.col-md-3(style="margin-left:-25px")
+								h4 Like &#9829;
+							div.col-md-3
+								h4 Comments(#{each.content.post_data.Comments.length})
+							div.col-md-3(align="right")
 								if (each.content.post_data.Status == 1)
-									h4(style="color:#0000FF") Sold Out
+									h4(style="color:#0000FF;") Sold Out
 								else
-									h4(style="color:#00FF00") In Stock
-							div.col-md-4()
+									h4(style="color:#00FF00;margin-right:-40px") In Stock
+							div.col-md-3(align="right")
 								form(name='delete_post', method = 'post', action ="/user")
 									input(name='_csrf', type='hidden', value='csrfToken')
 									input(name='type', type='hidden', value='delete')
@@ -21,21 +23,21 @@ mixin user_function(each, following,followers,posts)
 									input(name='posts',type='hidden',value=posts)
 									input(name='following',type='hidden',value=following)
 									input(name='followers',type='hidden',value=followers)
-									button(type="submit") Delete
-						div.container(align = "left")
-							each val in each.content.post_data.Comments
-								+comment(val.user_pic, val.user_id, val.user_name, val.text, each.content.user_data.User_id.split('/')[5])
-						div.container(align = "left",style="padding-left: 28px;")
-							form(name='comment', method='post', action ="/user")
-								input(name='_csrf', type='hidden', value=csrfToken)
-								input(name='type', type='hidden', value='comment')
-								input(name='post_id',type='hidden',value=each.post_id)
-								input(name='posts',type='hidden',value=posts)
-								input(name='following',type='hidden',value=following)
-								input(name='followers',type='hidden',value=followers)
-								img.img-circle(src='../'+each.content.user_data.User_pic+'?dim=40x40')
-								textarea(name="comment", rows="1", style="height:30px; vertical-align: middle;", placeholder="Write a comment...")
-								button.btn.btn-sm.btn-default(type="submit") Publish
+									button.btn.btn-primary.btn-sm(type="submit",style="margin-right:-55px;margin-top:5px") Delete
+						//div.container(style="background:#FFFFFF;width:570px;margin-left:0px")
+							//each val in each.content.post_data.Comments
+							//	+comment(val.user_pic, val.user_id, val.user_name, val.text, each.content.user_data.User_id.split('/')[5])
+						//div.container(align = "left",style="background:#FFFFFF;width:570px;margin-left:0px;padding-left:28px")
+						//	form(name='comment', method='post', action ="/user")
+						//		input(name='_csrf', type='hidden', value=csrfToken)
+						//		input(name='type', type='hidden', value='comment')
+						//		input(name='post_id',type='hidden',value=each.post_id)
+						//		input(name='posts',type='hidden',value=posts)
+						//		input(name='following',type='hidden',value=following)
+						//		input(name='followers',type='hidden',value=followers)
+						//		img.img-circle(src='../'+each.content.user_data.User_pic+'?dim=40x40')
+						//		textarea(name="comment", rows="1", style="height:30px; vertical-align: middle;", placeholder="Write a comment...")
+						//		button.btn.btn-sm.btn-default(type="submit") Publish
 								
 			script.
 				function imageClick(url) {

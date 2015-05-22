@@ -110,6 +110,9 @@ io.on('connection', function ( socket ) {
 // Use middleware for layout notifications
 app.use(stormpath.loginRequired, function(req, res, next) {
 
+  //Push profile pic
+  res.locals['profile_pic'] = req.user.customData.profile_pic || 'images/default_profile.jpg'
+  //Push notifications
   Notif.find({User_id: req.user.href.split("/")[5]}, function(err, notifs) {
     if (notifs.length > 0) {
       res.locals['notifs'] = []
@@ -125,6 +128,10 @@ app.use(stormpath.loginRequired, function(req, res, next) {
   next()
 })
 
+<<<<<<< HEAD
+=======
+//app.use('/home',stormpath.loginRequired,require('./loginhome'));
+>>>>>>> 757814746e1170b38f52e6744b1b6d06aa6cdb75
 app.use('/profile',stormpath.loginRequired,require('./profile')());
 app.use('/user',stormpath.loginRequired,require('./user'));
 app.use('/newpost',stormpath.loginRequired,require('./newpost'));
