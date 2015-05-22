@@ -59,9 +59,7 @@ app.get('/', function(req, res) {
       renderForm(req,res,{});
       return;
     }
-console.log("-----------------");
-console.log(req.user.customData.profile_pic);
-console.log("-----------------");
+
     if (accounts == null) {
       renderForm(req,res,{});
       return;
@@ -70,6 +68,9 @@ console.log("-----------------");
     var count = 0;
     postIdList = new Array();
     urlList = new Array();
+    titleList = new Array();
+    timestampList = new Array();
+    usernameList = new Array();
     var selfId = req.user.href.split("/")[5];
 
     Friend.find({User_id:selfId},function(err,results){
@@ -83,6 +84,9 @@ console.log("-----------------");
             if (timeFindResults[i].User_id.split("/")[5] == friendList[j]) {
               postIdList[count] = timeFindResults[i]._id;
               urlList[count] = timeFindResults[i].Image_path;
+              titleList[count] = timeFindResults[i].Title_of_post;
+              timestampList[count] = timeFindResults[i].TimeStamp;
+              usernameList[count] = timeFindResults[i].Username;
               count++;
               break;
             }
@@ -99,7 +103,10 @@ console.log("-----------------");
         renderForm(req,res,{
           posts: postIdList,
           images: urlList,
-          profile_pic: user_pic
+          profile_pic: user_pic,
+          titles: titleList,
+          timestamps: timestampList,
+          usernames: usernameList
         });
       });
     });
