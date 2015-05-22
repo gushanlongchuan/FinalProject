@@ -59,7 +59,9 @@ app.get('/', function(req, res) {
       renderForm(req,res,{});
       return;
     }
-
+console.log("-----------------");
+console.log(req.user.customData.profile_pic);
+console.log("-----------------");
     if (accounts == null) {
       renderForm(req,res,{});
       return;
@@ -88,9 +90,16 @@ app.get('/', function(req, res) {
           if (count == 10)
             break;
         }
+
+        var user_pic;
+        if (!req.user.customData.profile_pic)
+          user_pic = "images/default_profile.jpg";
+        else
+          user_pic = req.user.customData.profile_pic;
         renderForm(req,res,{
           posts: postIdList,
-          images: urlList
+          images: urlList,
+          profile_pic: user_pic
         });
       });
     });
