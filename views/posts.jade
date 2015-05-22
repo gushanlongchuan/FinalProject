@@ -12,13 +12,20 @@ block content
       div.page-header
         h1=post_data.Title_of_post
         h5
+       if user_data.User_id.split("/")[5] == post_data.User_id
+          p
+            | Posted by 
+            a(href='../user') #{post_data.Username}
+            |  on #{post_data.Time}
+          a(href='../user')
+            img.img-circle(src='../'+post_data.User_pic+'?dim=60x60')
+       else
           p
             | Posted by 
             a(href='../stranger/'+post_data.User_id) #{post_data.Username}
             |  on #{post_data.Time}
-        a(href='../stranger/'+post_data.User_id)
-          img.img-circle(src='../'+post_data.User_pic+'?dim=60x60')
-
+          a(href='../stranger/'+post_data.User_id)
+           img.img-circle(src='../'+post_data.User_pic+'?dim=60x60') 
       if saved
         div.alert.alert-success
           span

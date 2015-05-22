@@ -27,7 +27,7 @@ var topass;
 //Process POST
 router.post('/', stormpath.loginRequired, function(req, res, locals) {
 	id = req.originalUrl.split("/")[2]
-
+	U_id = req.user.href.split("/")[5]
 	// if button BUY
 	if (req.body.type == "buy") {
 		topass['saved'] = true
@@ -94,7 +94,7 @@ router.post('/', stormpath.loginRequired, function(req, res, locals) {
 
 //Process GET
 router.get('/', stormpath.loginRequired, function(req, res, locals) {
-
+	U_id = req.user.href.split("/")[5]
 	// Search for post in the DB
 	id = req.originalUrl.split("/")[2]
 	Post.findOne({ _id: id }, function(err, post) {
