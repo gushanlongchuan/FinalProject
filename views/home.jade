@@ -1,33 +1,30 @@
-html
-  head
-    title=title
-    //link(href='F:/cloud/FinalProject/assets/test.css')
-    link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
-    link(href="http://fonts.googleapis.com/css?family=Oleo+Script" rel="stylesheet" type="text/css")
-    style
-      include style.css
-  body#homepageBackground
-    div.container#homepageContainer
+extends ./layout.jade
+block title=title
+
+block content
+  div.container#homepageContainer
+
+    if user
+      div.container(style="margin-top: 100px;")
+
+        for each,i in images
+          div.col-md-4
+            img(id="homepageimage", src=each, onclick="imageClick('/posts/#{posts[i]}')")
+        script.
+          function imageClick(url) {
+            console.log(url)
+            window.location = url;
+          }
+    else
+      script.
+        document.getElementById("homepageBackground").style.background = 'url("http://workexpert.ru/wp-content/uploads/VideoTherapyWomanBeachLaptopSMer-1200x797.jpeg")';
+        document.getElementById("navbar").style.visibility="hidden";
       div.jumbotron#homepage
         h1#homepage Agent
-
-        if user
-          p
-            a.small(href="profile") Edit my profile
-          p
-            a.small(href="newpost") Create a new post
-          p 
-            a.small(href="user") #{user.fullName}
-          p
-          a.btn.btn-primary(href="/discover") Discover
-          p
-          a.btn.btn-primary(href="/logout") Logout
-        else
-          p#homepage A new way of trading.
-          p#homepage
-            a.btn.btn-primary(href="/login") Login now
-          p#homepage
-            span.small Don't have an account?
-            span &nbsp;
-            a.small(href="/register") Register now
-    div.container
+        p#homepage A new way of trading.
+        p#homepage
+          a.btn.btn-primary(href="/login") Login now
+        p#homepage
+          span.small Don't have an account?
+          span &nbsp;
+          a.small(href="/register") Register now

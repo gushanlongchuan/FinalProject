@@ -6,7 +6,10 @@ var mongo = require('mongodb');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var quickthumb = require('quickthumb');
+var extend = require('xtend');
 var Notif = require('./module/notif_table.js');
+var Post = require('./module/post_table.js');
+var Friend = require('./module/Friend_table.js')
 
 var app = express();
 
@@ -40,10 +43,57 @@ mongoose.connect('mongodb://gushan:gs524410@ds061721.mongolab.com:61721/finalpro
 	}
 })
 
+function renderForm(req,res,locals){
+  res.render('home', extend({
+    title: 'home',
+  },locals||{}));
+}
+
 // Handle routes
 app.get('/', function(req, res) {
-  res.render('home', {
-    title: 'Welcome'
+
+  req.app.get('stormpathApplication').getAccounts(function(err, accounts) {
+    if (err) return next(err);
+
+    if (!req.user) {
+      renderForm(req,res,{});
+      return;
+    }
+
+    if (accounts == null) {
+      renderForm(req,res,{});
+      return;
+    }
+    var friendList = new Array();
+    var count = 0;
+    postIdList = new Array();
+    urlList = new Array();
+    var selfId = req.user.href.split("/")[5];
+
+    Friend.find({User_id:selfId},function(err,results){
+      for(var i = 0; i < results.length; i++) {
+        friendList[i] = results[i].Friend_id;
+      }
+
+      Post.find({}, {}, { sort: { 'TimeStamp' : -1 } }, function(err, timeFindResults) {
+        for(var i = 0; i < timeFindResults.length; i++) {
+          for(var j = 0; j < friendList.length; j++) {
+            if (timeFindResults[i].User_id.split("/")[5] == friendList[j]) {
+              postIdList[count] = timeFindResults[i]._id;
+              urlList[count] = timeFindResults[i].Image_path;
+              count++;
+              break;
+            }
+          }
+          if (count == 10)
+            break;
+        }
+        renderForm(req,res,{
+          posts: postIdList,
+          images: urlList
+        });
+      });
+    });
   });
 });
 
@@ -75,7 +125,6 @@ app.use(stormpath.loginRequired, function(req, res, next) {
   next()
 })
 
-app.use('/home',stormpath.loginRequired,require('./loginhome'));
 app.use('/profile',stormpath.loginRequired,require('./profile')());
 app.use('/user',stormpath.loginRequired,require('./user'));
 app.use('/newpost',stormpath.loginRequired,require('./newpost'));
