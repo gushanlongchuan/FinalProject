@@ -2,7 +2,7 @@ extends ./layout.jade
 block title=title
 
 block content
-  div.container
+  div.container(style="width: 2000px")
 
     div.page-header
       h1 Discover
@@ -12,7 +12,7 @@ block content
       container(style="width: 1200px; margin: 0 auto 50px auto;",align="center")
         ul(style="list-style-type: none;")
           for each,i in images
-            li(style="float: left; position: relative; width: 300px; height: 200px; overflow: hidden;")
+            li(style="float: left; position: relative; width: 300px; height: 200px; overflow: hidden; margin: 20px;")
               img(src=each,style= 'cursor:pointer; height:200px; width:300px;', onclick="imageClick('/posts/#{posts[i]}')")
 
       script.
