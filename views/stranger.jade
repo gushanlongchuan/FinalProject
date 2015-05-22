@@ -12,16 +12,18 @@ block content
 							h5
 								p
 								a(href='../stranger/'+strangerData.href.split("/")[5]) #{strangerData.fullName}
-							form(name = 'form1', method = "post")
+							form(name = 'form1', method = "post", action="/stranger/"+strangerData.href.split("/")[5])
 								input(name='posts',type='hidden',value=posts)
 								input(name='following',type='hidden',value=following)
 								input(name='followers',type='hidden',value=followers)
 								input(name='stranger_href', type='hidden',value=strangerData.href)
 								input(name='user_pic',type='hidden',value=User_pic)
 								if clickable == 'false'
-									input(name= 'button1',type = "submit", value = "following")
+									input(name= 'button1',type = "hidden", value = "following")
+									button.btn.btn-success(type = "submit") &radic; following
 								else
-									input(name= 'button1',type = "submit", value = "follow")
+									input(name= 'button1',type = "hidden", value = "follow")
+									button.btn.btn-primary(type = "submit") + follow
 						div.col-md-6(align = "left")
 							div.page-header(style="margin-top:30px")
 							div.col-md-3(align = "center")
@@ -35,8 +37,9 @@ block content
 								h5 #{following}
 						div.container
 						#results
-							for picture in results	
-								include user_home
+							ul(style="list-style-type: none;")
+								for picture in results	
+									include user_home
 					
 
 
