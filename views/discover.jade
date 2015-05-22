@@ -7,15 +7,16 @@ block content
     div.page-header
       h1 Discover
 
-      if dis
-       for each,i in images
-          p
-          img(src=each,width="600", height="600", onclick="imageClick('/posts/#{posts[i]}')")
-          p
-        a.btn.btn-primary(href="/") Return to home page
 
-        script.
-              function imageClick(url) {
-                console.log(url)
-                window.location = url;
-              }
+    if dis
+      container(style="width: 1200px; margin: 0 auto 50px auto;",align="center")
+        ul(style="list-style-type: none;")
+          for each,i in images
+            li(style="float: left; position: relative; width: 300px; height: 200px; overflow: hidden;")
+              img(src=each,style= 'cursor:pointer; height:200px; width:300px;', onclick="imageClick('/posts/#{posts[i]}')")
+
+      script.
+            function imageClick(url) {
+              console.log(url)
+              window.location = url;
+            }
