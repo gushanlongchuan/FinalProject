@@ -30,3 +30,7 @@ h2#homepage {
 p#homepage {
   text-align: right;
 }
+
+img#homepageimage {
+  width: 300px;
+}
