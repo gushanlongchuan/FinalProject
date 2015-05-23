@@ -136,7 +136,7 @@ app.get('/', function(req, res, locals) {
           usernames: usernameList,
           userids: useridList,
           prices: priceList
-        });
+        }, locals||{}));
       });
     });
   });
