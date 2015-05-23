@@ -1,12 +1,14 @@
 
 include mixins/user_function
+include mixins/showFollowees
+include mixins/showFollowers
 extends ./layout.jade
 block title
 	title=title
 block content
 	div.container
-		div.container(style="width:600px;height:150px")
-			div.col-md-6(align="center",style="padding-left: 0px;")
+		div.container(style="width:1200px;height:150px")
+			div.col-md-6(align="center",style="padding-left: 30px;")
 				div.page-header(style="margin-top:10px")
 				if User_pic
 					img.img-circle(src='../'+User_pic,style="width:60px;")
@@ -15,20 +17,28 @@ block content
 					img.img-circle(src='../images/default_profile.jpg',style="width:60px;")
 				h5 #{user.fullName}
 
-			div.col-md-6(align="left")
+			div.col-md-6(align="right")
 				div.page-header(style="margin-top:20px;")
-				div.container(style="width:250px;")
+				div.container(style="width:600px;margin-left:-10px")
 					div.col-md-4(align="center")
-						p posts
-						h5 #{posts}
+						h4 #{posts}
+						button.btn.btn-primary(disabled) posts
 					div.col-md-4(align="center")
-						p followers
-						h5 #{followers}
+						h4 #{followers.length}
+						//button.btn.btn-success Follower
+						a.dropdown-toggle(data-toggle="dropdown", role="button", aria-expanded="false",type="button.btn.btn-success")  Follower
+							ul.dropdown-menu(role='menu', aria-labelledby='menu1')
+								for follower in followers
+									+showFollowers(follower)					
 					div.col-md-4(align="center")
-						p following
-						h5 #{following}
-				div.container(style="width:220px;height:20px;background-color:#D3D3CF;",align = "center")
-					a(href="/profile", style="text-decoration:none;") edit your profile     
+						h4   #{following.length} 
+						//button.btn.btn-success
+						a.dropdown-toggle(data-toggle="dropdown", role="button", aria-expanded="false") Following 
+							ul.dropdown-menu(role='menu', aria-labelledby='menu1')
+								for followee in following
+									+showFollowees(followee)
+				//div.container(style="width:220px;height:20px;background-color:#D3D3CF;",align = "center")
+				//	a(href="/profile", style="text-decoration:none;") edit your profile     
 		div.container
 			if user
 				if result
