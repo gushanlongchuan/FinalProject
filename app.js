@@ -4,6 +4,7 @@ var express = require('express');
 var stormpath = require('express-stormpath');
 var mongo = require('mongodb');
 var logger = require('morgan');
+var extend = require('xtend');
 var mongoose = require('mongoose');
 var quickthumb = require('quickthumb');
 var extend = require('xtend');
@@ -43,6 +44,28 @@ mongoose.connect('mongodb://gushan:gs524410@ds061721.mongolab.com:61721/finalpro
 	}
 })
 
+// Use middleware for layout notifications
+app.use(stormpath.loginRequired, function(req, res, next) {
+
+  //Push profile pic
+  res.locals['profile_pic'] = req.user.customData.profile_pic || 'images/default_profile.jpg'
+  //Push notifications
+  Notif.find({User_id: req.user.href.split("/")[5]}, function(err, notifs) {
+    if (notifs.length > 0) {
+      res.locals['notifs'] = []
+    }
+    notifs.forEach(function(notif, idx) {
+      res.locals.notifs.push({
+        message: notif.Message,
+        url: notif.Url,
+        id: notif._id
+      })
+    })
+    next()
+  })  
+})
+
+
 function renderForm(req,res,locals){
   res.render('home', extend({
     title: 'home',
@@ -50,18 +73,18 @@ function renderForm(req,res,locals){
 }
 
 // Handle routes
-app.get('/', function(req, res) {
+app.get('/', function(req, res, locals) {
 
   req.app.get('stormpathApplication').getAccounts(function(err, accounts) {
     if (err) return next(err);
 
     if (!req.user) {
-      renderForm(req,res,{});
+      renderForm(req,res,locals||{});
       return;
     }
 
     if (accounts == null) {
-      renderForm(req,res,{});
+      renderForm(req,res,locals||{});
       return;
     }
     var friendList = new Array();
@@ -104,7 +127,7 @@ app.get('/', function(req, res) {
           user_pic = "images/default_profile.jpg";
         else
           user_pic = req.user.customData.profile_pic;
-        renderForm(req,res,{
+        renderForm(req,res,extend({
           posts: postIdList,
           images: urlList,
           profile_pic: user_pic,
@@ -128,27 +151,6 @@ io.on('connection', function ( socket ) {
   });
     
 });
-
-// Use middleware for layout notifications
-app.use(stormpath.loginRequired, function(req, res, next) {
-
-  //Push profile pic
-  res.locals['profile_pic'] = req.user.customData.profile_pic || 'images/default_profile.jpg'
-  //Push notifications
-  Notif.find({User_id: req.user.href.split("/")[5]}, function(err, notifs) {
-    if (notifs.length > 0) {
-      res.locals['notifs'] = []
-    }
-    notifs.forEach(function(notif, idx) {
-      res.locals.notifs.push({
-        message: notif.Message,
-        url: notif.Url,
-        id: notif._id
-      })
-    })
-  })
-  next()
-})
 
 app.use('/profile',stormpath.loginRequired,require('./profile')());
 app.use('/user',stormpath.loginRequired,require('./user'));
