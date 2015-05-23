@@ -8,6 +8,11 @@ function acceptNotif(id) {
 	socket.emit('notif', {'id': id})
 	//hide
 	$('#'+id).hide()
+	//decrease count
+	$('.noti_bubble').html( $('.noti_bubble').html() - 1 )
+	if ($('.noti_bubble').html() == "0") {
+		$('.noti_bubble').hide()
+	}
 }
 
 
