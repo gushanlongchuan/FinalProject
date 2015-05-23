@@ -43,6 +43,10 @@ mongoose.connect('mongodb://gushan:gs524410@ds061721.mongolab.com:61721/finalpro
 	}
 })
 
+
+
+
+
 function renderForm(req,res,locals){
   res.render('home', extend({
     title: 'home',
@@ -106,7 +110,7 @@ console.log("-----------------");
   });
 });
 
-io.on('connection', function ( socket ) {
+/*io.on('connection', function ( socket ) {
   console.log('yessss')
   //socket.emit('connect', { hello: 'world' });
   socket.on('notif', function (notif_id) {
@@ -135,7 +139,7 @@ app.use(stormpath.loginRequired, function(req, res, next) {
     })
   })
   next()
-})
+})*/
 
 app.use('/profile',stormpath.loginRequired,require('./profile')());
 app.use('/user',stormpath.loginRequired,require('./user'));

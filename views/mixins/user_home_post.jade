@@ -1,0 +1,21 @@
+include ./comment
+mixin user_home_post(each)
+		div.container(align = "center",style="background:#DFDFDF;width:650px;box-shadow:0px 0px 23px 0px #888888;margin-bottom:50px")
+			div.container(align = "justify",style="padding-left:30px;margin-top:0px;")
+				img.img-responsive.img-rounded(src ='../' + topass.post_data.Image_path, width="570", height="550" )
+				div.container(style="background:#FFFFFF;width:570px;margin-left:0px")
+					each val in topass.post_data.Comments
+						+comment(val.user_pic, val.user_id, val.user_name, val.text, topass.user_data.User_id.split('/')[5])
+				div.container(align = "left",style="background:#FFFFFF;width:570px;margin-left:0px;padding-left:28px")
+					form(name='comment', method='post', action ="/user/"+topass.post_data._id)
+						input(name='_csrf', type='hidden', value=csrfToken)
+						input(name='type', type='hidden', value='comment')
+						img.img-circle(src='../'+topass.user_data.User_pic,style="width:40px;height:40px")
+						textarea(name="comment", rows="1", style="height:30px; vertical-align: middle;", placeholder="Write a comment...")
+						button.btn.btn-sm.btn-default(type="submit") Publish
+								
+			script.
+				function imageClick(url) {
+					console.log(url)
+					window.location = url;
+				}

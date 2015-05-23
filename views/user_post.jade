@@ -1,5 +1,4 @@
-
-include mixins/user_function
+include mixins/user_home_post
 extends ./layout.jade
 block title
 	title=title
@@ -9,10 +8,10 @@ block content
 			div.col-md-6(align="center",style="padding-left: 0px;")
 				div.page-header(style="margin-top:10px")
 				if User_pic
-					img.img-circle(src='../'+User_pic,style="width:60px;")
+					img.img-circle(src='../'+User_pic+'?dim=60x60')
 					//img.img-circle(src='../images/like.jpg')
 				else
-					img.img-circle(src='../images/default_profile.jpg',style="width:60px;")
+					img.img-circle(src='../images/default_profile.jpg'+'?dim=60x60')
 				h5 #{user.fullName}
 
 			div.col-md-6(align="left")
@@ -28,19 +27,6 @@ block content
 						p following
 						h5 #{following}
 				div.container(style="width:220px;height:20px;background-color:#D3D3CF;",align = "center")
-					a(href="/profile", style="text-decoration:none;") edit your profile     
+					a(href="/profile", style="text-decoration:none;") edit your profile 
 		div.container
-			if user
-				if result
-					for each in result
-						+user_function(each,following,followers,posts)
-
-			else
-				p
-					Welcome to my app, ready to get started?
-				p 
-					a.btn.btn-primary(href="/login") Login now
-				p
-					span.small Don't have an account?
-					span &nbsp;
-					a.small(href="/register") Register now
+			+user_home_post(topass)
