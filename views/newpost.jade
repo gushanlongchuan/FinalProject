@@ -5,56 +5,58 @@ block title
 
 block content
 
-    div.container
+    div.container(style="width: auto;")
 
       div.page-header
-        h1 New post
+        h1#discoverhead New post
 
-      if errors
-        each error in errors
-          div.alert.alert-danger
-            span #{error.error}
-            
-      if saved
-        div.alert.alert-success
-          span Your item has been posted
+      div#newpost
 
-      form.form-horizontal(method='post', role='form', enctype='multipart/form-data')
-        input(name='_csrf', type='hidden', value=csrfToken)
+        if errors
+          each error in errors
+            div.alert.alert-danger
+              span #{error.error}
+              
+        if saved
+          div.alert.alert-success
+            span Your item has been posted
 
-        div.form-group
-          label.col-sm-4 Title of your post
-          div.col-sm-8
-            input.form-control(
-              placeholder='Give a short and nice title',
-              required=true,
-              name='Title_of_post',
-              type='text')
-        div.form-group
-          label.col-sm-4 Description of the item
-          div.col-sm-8
-            textarea.form-control(
-              placeholder='Describe your item',
-              required=true,
-              name='Description',
-              type='text')
-        div.form-group
-          label.col-sm-4 Price
-          div.col-sm-8
-            input.form-control(
-              placeholder='Give a reasonable price',
-              required=true,
-              name='Price',
-              type='number')
-        div.form-group
-          label.col-sm-4 Pictures
-          div.col-sm-8
-            input.form-control(
-              required=true,
-              name='image',
-              type='file')
-        div.form-group
-          div.col-sm-offset-4.col-sm-8
-            button.login.btn.btn-primary(type='submit') Post your item!
-        div.pull-right
-          a(href="/") Return to home page
+        form.form-horizontal(method='post', role='form', enctype='multipart/form-data')
+          input(name='_csrf', type='hidden', value=csrfToken)
+
+          div.form-group
+            label.col-sm-4 Title of your post
+            div.col-sm-8
+              input.form-control(
+                placeholder='Give a short and nice title',
+                required=true,
+                name='Title_of_post',
+                type='text')
+          div.form-group
+            label.col-sm-4 Description of the item
+            div.col-sm-8
+              textarea.form-control(
+                placeholder='Describe your item',
+                required=true,
+                name='Description',
+                type='text')
+          div.form-group
+            label.col-sm-4 Price
+            div.col-sm-8
+              input.form-control(
+                placeholder='Give a reasonable price',
+                required=true,
+                name='Price',
+                type='number')
+          div.form-group
+            label.col-sm-4 Pictures
+            div.col-sm-8
+              input.form-control(
+                required=true,
+                name='image',
+                type='file')
+          div.form-group
+            div.col-sm-offset-4.col-sm-8
+              button.login.btn.btn-primary(type='submit') Post your item!
+          div.pull-right
+            a(href="/") Return to home page

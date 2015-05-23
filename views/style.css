@@ -66,7 +66,7 @@ p#info {
 h1#discoverhead {
   font-family: Philosopher;
   font-style: bold;
-  margin-left:50px;
+  margin-left: 100px;
 }
 
 div#discoverparent {
@@ -97,4 +97,10 @@ img#discover {
   margin-left: auto;
   margin-right: auto;
   display: block;
+}
+
+div#newpost {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
