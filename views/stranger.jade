@@ -1,56 +1,39 @@
-
 include mixins/comment
 extends ./layout.jade
 block title
 	title=title
 block content
 		div.container
-					if user
-						div.col-md-6(align = "center")
-							div.page-header(style="margin-top:10px")
-							img.img-circle(style="width: 60px;" src='../'+User_pic)
-							h5
-								p
-								a(href='../stranger/'+strangerData.href.split("/")[5]) #{strangerData.fullName}
-							form(name = 'form1', method = "post", action="/stranger/"+strangerData.href.split("/")[5])
-								input(name='posts',type='hidden',value=posts)
-								input(name='following',type='hidden',value=following)
-								input(name='followers',type='hidden',value=followers)
-								input(name='stranger_href', type='hidden',value=strangerData.href)
-								input(name='user_pic',type='hidden',value=User_pic)
-								if clickable == 'false'
-									input(name= 'button1',type = "hidden", value = "following")
-									button.btn.btn-success(type = "submit") &radic; following
-								else
-									input(name= 'button1',type = "hidden", value = "follow")
-									button.btn.btn-primary(type = "submit") + follow
-						div.col-md-6(align = "left")
-							div.page-header(style="margin-top:30px")
-							div.col-md-3(align = "center")
-								p posts
-								h5 #{posts}
-							div.col-md-3(align = "center")
-								p followers
-								h5 #{followers}
-							div.col-md-3(align = "center")
-								p following
-								h5 #{following}
-						div.container(style="width:1000px;")
-						#results
-							ul(style="list-style-type: none;margin-left:60px")
-								for picture in results	
-									include user_home
-					
-
-
-
-					
+			div.page-header(style="margin-top:10px")
+			div.col-md-6(align = "center")
+				img.img-circle(style="width: 60px;" src='../'+User_pic)
+				h5
+					p
+					a(href='../stranger/'+strangerData.href.split("/")[5]) #{strangerData.fullName}
+				form(name = 'form1', method = "post", action="/stranger/"+strangerData.href.split("/")[5])
+					input(name='posts',type='hidden',value=posts)
+					input(name='following',type='hidden',value=following)
+					input(name='followers',type='hidden',value=followers)
+					input(name='stranger_href', type='hidden',value=strangerData.href)
+					input(name='user_pic',type='hidden',value=User_pic)
+					if clickable == 'false'
+						input(name= 'button1',type = "hidden", value = "following")
+						button.btn.btn-success(type = "submit") &radic; following
 					else
-						p
-							Welcome to my app, ready to get started?
-						p 
-							a.btn.btn-primary(href="/login") Login now
-						p
-							span.small Don't have an account?
-							span &nbsp;
-							a.small(href="/register") Register now
+						input(name= 'button1',type = "hidden", value = "follow")
+						button.btn.btn-primary(type = "submit") + follow
+			div.col-md-6
+				div.col-md-3(align = "center")
+					p posts
+					h5 #{posts}
+				div.col-md-3(align = "center")
+					p followers
+					h5 #{followers}
+				div.col-md-3(align = "center")
+					p following
+					h5 #{following}
+			div.container(style="width:auto;")
+			#results
+				ul(style="list-style-type: none;")
+					for picture in results	
+						include user_home

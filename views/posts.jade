@@ -7,62 +7,68 @@ block title
 
 block content
 
-    div.container
+    div.container(style="width: auto;")
 
       div.page-header
-        h1=post_data.Title_of_post
+        h1#discoverhead #{post_data.Title_of_post}
         h5
-       if user_data.User_id.split("/")[5] == post_data.User_id
-          p
-            | Posted by 
-            a(href='../user') #{post_data.Username}
-            |  on #{post_data.Time}
-          a(href='../user')
-            img.img-circle(style="width: 60px;" src='../'+post_data.User_pic)
-       else
-          p
-            | Posted by 
-            a(href='../stranger/'+post_data.User_id) #{post_data.Username}
-            |  on #{post_data.Time}
-          a(href='../stranger/'+post_data.User_id)
-           img.img-circle(style="width: 60px;" src='../'+post_data.User_pic) 
-      if saved
-        div.alert.alert-success
-          span
-            strong Congratulations! 
-            | Your paiment was accepted. You successfully bought this item. Check your mailbox, you'll receive it soon!
 
-      if errors
-        each error in errors
-          div.alert.alert-danger
-            span #{error.error}
+      div#newpost
 
-      div.row
-        div.col-md-4
-          img.img-responsive.img-rounded(src='../'+post_data.Image_path)
-        div.col-md-4
-          div.page-header(style="margin-top:-20px")
+        if saved
+          div.alert.alert-success
+            span
+              strong Congratulations! 
+              | Your paiment was accepted. You successfully bought this item. Check your mailbox, you'll receive it soon!
+
+        if errors
+          each error in errors
+            div.alert.alert-danger
+              span #{error.error}
+
+        div.col-md-3#postcutter
+          if user_data.User_id.split("/")[5] == post_data.User_id
+            p#post
+              | Posted by 
+              a(href='../user') #{post_data.Username}
+            p#post
+              |  on #{post_data.Time}
+            a(href='../user')
+              img.img-circle(style="width: 60px;" src='../'+post_data.User_pic)
+          else
+            p#post
+              | Posted by 
+              a(href='../stranger/'+post_data.User_id) #{post_data.Username}
+            p#post
+              |  on #{post_data.Time}
+            a(style="float: right;" href='../stranger/'+post_data.User_id)
+             img.img-circle(style="width: 60px;" src='../'+post_data.User_pic)
+
+
+        div.col-md-9
+          div.col-md-6
+            img.img-responsive(src='../'+post_data.Image_path)
+          div.col-md-6
             h3=post_data.Title_of_post
             h4 Price: $#{post_data.Price}
-          p=post_data.Description
-          if sold
-            h3
-              span.label.label-danger This item has been sold
-          else
-            form(method='post')
-              input(name='_csrf', type='hidden', value=csrfToken)
-              input(name='type', type='hidden', value='buy')
-              button.btn.btn-primary(type="submit", style="width:50%;") Buy
+            p=post_data.Description
+            if sold
+              h3
+                span.label.label-danger This item has been sold
+            else
+              form(method='post')
+                input(name='_csrf', type='hidden', value=csrfToken)
+                input(name='type', type='hidden', value='buy')
+                button.btn.btn-primary(type="submit", style="width:50%;") Buy
 
-      div.row
-        h3 Comments
-        each val in post_data.Comments
-          +comment(val.user_pic, val.user_id, val.user_name, val.text, user_data.User_id.split('/')[5])
-        div.container
-          form(name='comment', method='post')
-            input(name='_csrf', type='hidden', value=csrfToken)
-            input(name='type', type='hidden', value='comment')
-            img.img-circle(style="width: 40px;" src='../'+user_data.User_pic)
-            textarea(name="comment", rows="1", style="height:30px; vertical-align: middle;", placeholder="Write a comment...")
-            button.btn.btn-sm.btn-default(type="submit") Publish
-
+          div.col-md-12#commentscutter
+            h3(style="margin-left: 10px;") Comments
+            each val in post_data.Comments
+              +comment(val.user_pic, val.user_id, val.user_name, val.text, user_data.User_id.split('/')[5])
+            div.container
+              form(name='comment', method='post')
+                input(name='_csrf', type='hidden', value=csrfToken)
+                input(name='type', type='hidden', value='comment')
+                img.img-circle(style="width: 40px;" src='../'+user_data.User_pic)
+                textarea(name="comment", rows="1", style="margin-left: 10px; height:25px; vertical-align: middle;", placeholder="Write a comment...")
+                button.btn.btn-sm.btn-default(style="margin-left: 10px;" type="submit") Publish

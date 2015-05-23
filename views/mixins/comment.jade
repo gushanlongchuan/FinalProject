@@ -1,9 +1,9 @@
 
 mixin comment(user_pic, user_id, user_name, text, current_user_id)
-  div.container
+  div.container(style="margin-top: 5px; margin-bottom: 5px;")
     img.img-circle(style="width: 40px;" src='../'+user_pic)
     if (user_id == current_user_id)
-       a.b(href='../user/') #{user_name}
+       a.b(style="margin-left: 10px; font-weight: bold;" href='../user/') #{user_name}
     else
-       a.b(href='../stranger/'+user_id) #{user_name}
+       a.b(style="margin-left: 10px; font-weight: bold;" href='../stranger/'+user_id) #{user_name}
     |  #{text}
