@@ -9,8 +9,9 @@ block content
       for each,i in images
         div.col-md-4
           div#infocontainer
-          p#info(style="font-weight: bold;") #{usernames[i]}
-          p#info(style="font-weight: bold;") #{titles[i]}
+          p#info(onclick="imageClick('/stranger/#{userids[i]}')") #{usernames[i]}
+          p#info(style="font-weight: bold;", onclick="imageClick('/posts/#{posts[i]}')") #{titles[i]}
+          p#info(onclick="imageClick('/posts/#{posts[i]}')") $#{prices[i]}
         div.col-md-8#imagecontainer
           img(id="homepageimage", src=each, onclick="imageClick('/posts/#{posts[i]}')")
       script.

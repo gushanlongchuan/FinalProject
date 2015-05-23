@@ -37,8 +37,9 @@ html
           ul.nav.navbar-nav.navbar-right
             
             li.dropdown
-              a.dropdown-toggle(data-toggle="dropdown", role="button", aria-expanded="false") Notifications
-                span.caret
+              if notifs
+                span.noti_bubble #{notifs.length}
+              a.dropdown-toggle(data-toggle="dropdown", role="button", aria-expanded="false") Notifications  
               if notifs
                 ul.dropdown-menu(role="menu")
                   each notif in notifs
