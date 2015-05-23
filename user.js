@@ -102,11 +102,14 @@ router.get('/', function(req, res, locals) {
 		var User_pic = req.user.customData.profile_pic
 		
 		var post_num = results.length;
-		if (User_pic == undefined || !User_pic) User_pic = 'images/default_profile.jpg';
+		if (User_pic == undefined || !User_pic) {
+			User_pic = 'images/default_profile.jpg';
+			console.log(User_pic)
+		}
 		if (err) return err;
-		Friend.count({User_id:U_id}, function(err,following){
+		Friend.find({User_id:U_id}, function(err,following){
 			var following_num = following;
-			Friend.count({Friend_id:U_id}, function(err,followee){
+			Friend.find({Friend_id:U_id}, function(err,followee){
 				var followee_num = followee;
 				if (results.length == 0){
 					res.render('user', extend({posts:post_num,following:following_num,followers:followee_num,User_pic:User_pic}, locals||{}))

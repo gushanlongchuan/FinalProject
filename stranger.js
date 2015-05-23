@@ -59,35 +59,42 @@ router.post('/:stranger_id', function(req, res, locals){
 	var post_num = req.body.posts;
 	var following_num = req.body.following;
 	var followee_num = parseInt(req.body.followers, 10);	
-	var usrname = req.user.username;
+	var usrname = req.user.fullName;
+	var Usr_pic = req.user.customData.profile_pic || 'images/default_profile.jpg';
 	if(req.body.button1 == "follow"){
 		client.getResource('https://api.stormpath.com/v1/accounts/'+Stranger_id, function(err, strangerData){
-			var S_username = strangerData.username;
+			var S_username = strangerData.fullName;
 			var s_id = strangerData.href;
-			var User_pic = strangerData.customData.pic
-			var followship = {
-				User_id: user_id,
-				Friend_id: Stranger_id,
-				Username: usrname,
-				Friendname: S_username
-			}
-			Friend.create(followship, function(err, Friend){
-				var clickable = "false"
-				if (err) return console.log(err)
-				else {
-					Post.find({User_id: s_id},function(err, results){
-						var clickable = "false"
-						if (err) return err
-						else {
-							client.getResource(strangerData.customData.href, function(err, sCustomData){
-								var image_path = sCustomData.profile_pic;
-								if (image_path == undefined) image_path = 'images/default_profile.jpg';
-								followee_num = followee_num + 1;
-								res.render('stranger', extend({results : results, clickable:clickable,strangerData: strangerData, User_pic:image_path,followers:followee_num, following:following_num, posts:post_num}, locals||{}))
-							})
-						}
-					});
+			client.getResource(strangerData.customData.href, function(err,strangerCData){
+				
+				var User_pic = strangerCData.profile_pic;
+				if (User_pic == undefined) User_pic = 'images/default_profile.jpg';
+				var followship = {
+					User_id: user_id,
+					Friend_id: Stranger_id,
+					Username: usrname,
+					Friendname: S_username,
+					User_picture:Usr_pic,
+					Friend_picture:User_pic
 				}
+				Friend.create(followship, function(err, Friend){
+					var clickable = "false"
+					if (err) return console.log(err)
+					else {
+						Post.find({User_id: s_id},function(err, results){
+							var clickable = "false"
+							if (err) return err
+							else {
+								client.getResource(strangerData.customData.href, function(err, sCustomData){
+									var image_path = sCustomData.profile_pic;
+									if (image_path == undefined) image_path = 'images/default_profile.jpg';
+									followee_num = followee_num + 1;
+									res.render('stranger', extend({results : results, clickable:clickable,strangerData: strangerData, User_pic:image_path,followers:followee_num, following:following_num, posts:post_num}, locals||{}))
+								})
+							}
+						});
+					}
+				})
 			})
 		});
 	}
