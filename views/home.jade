@@ -2,26 +2,29 @@ extends ./layout.jade
 block title=title
 
 block content
-  div.container#homepageContainer
+  div.container(style="width: auto;")
 
     if user
-      div.container(style="margin-top: 100px;")
 
-        for each,i in images
-          div.col-md-4
-            img(id="homepageimage", src=each, onclick="imageClick('/posts/#{posts[i]}')")
-        script.
-          function imageClick(url) {
-            console.log(url)
-            window.location = url;
-          }
+      for each,i in images
+        div.col-md-4
+          div#infocontainer
+          p#info(style="font-weight: bold;") #{usernames[i]}
+          p#info(style="font-weight: bold;") #{titles[i]}
+        div.col-md-8#imagecontainer
+          img(id="homepageimage", src=each, onclick="imageClick('/posts/#{posts[i]}')")
+      script.
+        function imageClick(url) {
+          console.log(url)
+          window.location = url;
+        }
     else
       script.
-        document.getElementById("homepageBackground").style.background = 'url("http://workexpert.ru/wp-content/uploads/VideoTherapyWomanBeachLaptopSMer-1200x797.jpeg")';
+        document.getElementById("homepageBackground").style.background = 'url("http://marketingland.com/wp-content/ml-loads/2013/11/e-commerce-retail-ss-1920.jpg")';
         document.getElementById("navbar").style.visibility="hidden";
       div.jumbotron#homepage
-        h1#homepage Agent
-        p#homepage A new way of trading.
+        h1#homepage InsTrade
+        h2#homepage A new way of trading.
         p#homepage
           a.btn.btn-primary(href="/login") Login now
         p#homepage

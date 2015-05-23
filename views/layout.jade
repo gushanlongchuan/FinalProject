@@ -12,7 +12,8 @@ html
     script(src="../myscript.js")
     link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")
     link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css")
-    link(href="http://fonts.googleapis.com/css?family=Oleo+Script" rel="stylesheet" type="text/css")
+    link(href="//fonts.googleapis.com/css?family=Philosopher" rel="stylesheet" type="text/css")
+    
 
     block title
       title Default title
@@ -29,7 +30,7 @@ html
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href="/")(style="font-family: 'Oleo Script', Helvetica, sans-serif;") Agent
+          a.navbar-brand(href="/")(style="font-family: Philosopher;") InsTrade
 
         div.navbar-collapse.collapse(id="navbar")
 
@@ -49,7 +50,7 @@ html
               a(href="/discover") Discover
             li
               a(href="/user", style="padding-bottom:5px;padding-top:5px;")
-                img.img-circle(src='../' + profile_pic + '?dim=40x40')
+                img.img-circle(style="width: 40px; height: 40px;" src='../' + profile_pic)
             li 
               a(href="/logout") Logout
           form.navbar-form.navbar-left

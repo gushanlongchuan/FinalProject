@@ -18,14 +18,14 @@ block content
             a(href='../user') #{post_data.Username}
             |  on #{post_data.Time}
           a(href='../user')
-            img.img-circle(src='../'+post_data.User_pic+'?dim=60x60')
+            img.img-circle(style="width: 60px;" src='../'+post_data.User_pic)
        else
           p
             | Posted by 
             a(href='../stranger/'+post_data.User_id) #{post_data.Username}
             |  on #{post_data.Time}
           a(href='../stranger/'+post_data.User_id)
-           img.img-circle(src='../'+post_data.User_pic+'?dim=60x60') 
+           img.img-circle(style="width: 60px;" src='../'+post_data.User_pic) 
       if saved
         div.alert.alert-success
           span
@@ -62,7 +62,7 @@ block content
           form(name='comment', method='post')
             input(name='_csrf', type='hidden', value=csrfToken)
             input(name='type', type='hidden', value='comment')
-            img.img-circle(src='../'+user_data.User_pic+'?dim=40x40')
+            img.img-circle(style="width: 40px;" src='../'+user_data.User_pic)
             textarea(name="comment", rows="1", style="height:30px; vertical-align: middle;", placeholder="Write a comment...")
             button.btn.btn-sm.btn-default(type="submit") Publish
 

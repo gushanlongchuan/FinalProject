@@ -3,30 +3,16 @@ extends ./layout.jade
 block title
 	title=title
 block content
-	div.container
-		div.container(style="width:600px;height:150px")
-			div.col-md-6(align="center",style="padding-left: 0px;")
-				div.page-header(style="margin-top:10px")
+	div.container(style="background:#DFDFDF;width:650px;box-shadow:0px 0px 23px 0px #888888;margin-bottom:50px")
+		div.container(style="width:600px; margin-left:-25px;margin-bottom:10px;margin-top:10px")
+			div.col-md-3(align="center",style="padding-left: 0px;")
 				if User_pic
-					img.img-circle(src='../'+User_pic+'?dim=60x60')
-					//img.img-circle(src='../images/like.jpg')
+					img.img-circle(src='../'+User_pic, style="width:50px")
 				else
-					img.img-circle(src='../images/default_profile.jpg'+'?dim=60x60')
-				h5 #{user.fullName}
-
-			div.col-md-6(align="left")
-				div.page-header(style="margin-top:20px;")
-				div.container(style="width:250px;")
-					div.col-md-4(align="center")
-						p posts
-						h5 #{posts}
-					div.col-md-4(align="center")
-						p followers
-						h5 #{followers}
-					div.col-md-4(align="center")
-						p following
-						h5 #{following}
-				div.container(style="width:220px;height:20px;background-color:#D3D3CF;",align = "center")
-					a(href="/profile", style="text-decoration:none;") edit your profile 
-		div.container
+					img.img-circle(src='../images/default_profile.jpg',style="width:50px")
+			div.col-md-9(align="left")
+				p(style="color:black")
+				h4(style="color:black") #{user.fullName} 
+				|post this picture on #{topass.post_data.Time}
+		div.container(style="margin-left:-35px")
 			+user_home_post(topass)

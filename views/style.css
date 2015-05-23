@@ -4,31 +4,58 @@
   background-repeat: no-repeat;
 }
 
-
-
 div.jumbotron#homepage {
 /*  opacity: 0.9;*/
-  margin-top: 70;
-  float: right;
+
+  float: center;
   background: transparent;
 }
 
 h1#homepage {
-  text-align: right;
-  font-family: 'Oleo Script', Helvetica, sans-serif;
+  text-align: center;
+  font-family: Philosopher;
   font-style: bold;
-  font-size: 80;
+  font-size: 80px;
+  color: white;
 }
 
 h2#homepage {
-  text-align: right;
-  margin-bottom: 50;
+  font-family: Philosopher;
+  text-align: center;
+  margin-top: -5px;
+  margin-bottom: 80px;
+  color: white;
+  font-size: 25px;
+  font-variant: normal;
 }
 
 p#homepage {
-  text-align: right;
+  text-align: center;
+  color: white;
 }
 
 img#homepageimage {
-  width: 300px;
+  margin: 20px;
+  width: 400px;
+
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
+
+div#imagecontainer {
+  background: #F0F0F0;
+}
+
+div#infocontainer {
+  margin: 20px;
+
+  border-top-style: solid;
+  border-right-style: solid;
+  border-color: #606060; 
+}
+
+p#info {
+  text-align: right;
+  margin-right: 30px;
 }
