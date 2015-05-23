@@ -71,6 +71,8 @@ app.get('/', function(req, res) {
     titleList = new Array();
     timestampList = new Array();
     usernameList = new Array();
+    useridList = new Array();
+    priceList = new Array();
     var selfId = req.user.href.split("/")[5];
 
     Friend.find({User_id:selfId},function(err,results){
@@ -87,6 +89,8 @@ app.get('/', function(req, res) {
               titleList[count] = timeFindResults[i].Title_of_post;
               timestampList[count] = timeFindResults[i].TimeStamp;
               usernameList[count] = timeFindResults[i].Username;
+              priceList[count] = timeFindResults[i].Price;
+              useridList[count] = timeFindResults[i].User_id.split("/")[5];
               count++;
               break;
             }
@@ -106,7 +110,9 @@ app.get('/', function(req, res) {
           profile_pic: user_pic,
           titles: titleList,
           timestamps: timestampList,
-          usernames: usernameList
+          usernames: usernameList,
+          userids: useridList,
+          prices: priceList
         });
       });
     });
@@ -114,7 +120,7 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function ( socket ) {
-  console.log('yessss')
+  // console.log('yessss')
   //socket.emit('connect', { hello: 'world' });
   socket.on('notif', function (notif_id) {
     console.log(notif_id);
