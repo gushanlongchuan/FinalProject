@@ -9,9 +9,10 @@ block content
 			div.col-md-6(align="center",style="padding-left: 0px;")
 				div.page-header(style="margin-top:10px")
 				if User_pic
-					img.img-circle(src='../'+User_pic+'?dim=60x60')
+					img.img-circle(src='../'+User_pic,style="width:60px;")
+					//img.img-circle(src='../images/like.jpg')
 				else
-					img.img-circle(src='../images/default_profile.jpg'+'?dim=60x60')
+					img.img-circle(src='../images/default_profile.jpg',style="width:60px;")
 				h5 #{user.fullName}
 
 			div.col-md-6(align="left")

@@ -104,3 +104,17 @@ div#newpost {
   margin-left: auto;
   margin-right: auto;
 }
+
+.noti_bubble {
+    position:absolute;
+    top: 13px;
+    left: 0px;
+    padding:1px 2px 1px 2px;
+    background-color:red;
+    color:white;
+    font-weight:bold;
+    font-size:0.9em;
+    
+    border-radius:30px;
+    box-shadow:1px 1px 1px gray;
+}
