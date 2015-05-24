@@ -2,7 +2,7 @@ include ./comment
 mixin user_home_post(each)
 		div.container(align = "center")
 			div.container(align = "justify",style="padding-left:30px;margin-top:0px;")
-				img.img-responsive.img-rounded(src ='../' + topass.post_data.Image_path, width="570")
+				img.img-responsive(src ='../' + topass.post_data.Image_path, width="570")
 				div.container(style="background:#FFFFFF;width:570px;margin-left:0px;padding:10px;")
 					each val in topass.post_data.Comments
 						+comment(val.user_pic, val.user_id, val.user_name, val.text, topass.user_data.User_id.split('/')[5])

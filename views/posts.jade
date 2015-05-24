@@ -79,7 +79,7 @@ block content
                         img.img-circle(src='../images/like.jpg',style="width:20px;height=20px;")
                       else
                         input(type="image",src="../images/like.jpg",alt="Submit",width="20px",height="20px")
-            div.container
+            div.container(style="width: auto;")
               each val in post_data.Comments
                +comment(val.user_pic, val.user_id, val.user_name, val.text, user_data.User_id.split('/')[5])
             div.container(style="margin-left:15px")
