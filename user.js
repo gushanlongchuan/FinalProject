@@ -99,12 +99,12 @@ router.get('/', function(req, res, locals) {
 	var U_id = req.user.href.split("/")[5];
 	testPass = [];
 	Post.find({User_id: 'https://api.stormpath.com/v1/accounts/' + U_id},function(err, results){
-		var User_pic = req.user.customData.profile_pic
+		var User_picture = req.user.customData.profile_pic
 		
 		var post_num = results.length;
-		if (User_pic == undefined || !User_pic) {
-			User_pic = 'images/default_profile.jpg';
-			console.log(User_pic)
+		if (User_picture == undefined || !User_picture) {
+			User_picture = 'images/default_profile.jpg';
+			console.log(User_picture)
 		}
 		if (err) return err;
 		Friend.find({User_id:U_id}, function(err,following){
@@ -112,7 +112,7 @@ router.get('/', function(req, res, locals) {
 			Friend.find({Friend_id:U_id}, function(err,followee){
 				var followee_num = followee;
 				if (results.length == 0){
-					res.render('user', extend({posts:post_num,following:following_num,followers:followee_num,User_pic:User_pic}, locals||{}))
+					res.render('user', extend({posts:post_num,following:following_num,followers:followee_num,User_pic:User_picture}, locals||{}))
 				}
 				results.forEach(function(result, idx) {
 					var topass;
@@ -149,7 +149,7 @@ router.get('/', function(req, res, locals) {
 								content:topass
 							})
 							if(testPass.length == results.length){
-								res.render('user', extend({result:testPass,followers:followee_num, following:following_num, posts:post_num}, locals||{}))
+								res.render('user', extend({result:testPass,followers:followee_num, following:following_num, posts:post_num,User_pic:User_picture}, locals||{}))
 							}
 						}
 						else{
@@ -170,7 +170,7 @@ router.get('/', function(req, res, locals) {
 										})
 									}
 									if(testPass.length == results.length && topass.post_data.Comments.length == comments.length){
-										res.render('user', extend({posts:post_num,following:following_num,followers:followee_num,User_pic:User_pic,result:testPass}, locals||{}))
+										res.render('user', extend({posts:post_num,following:following_num,followers:followee_num,User_pic:User_picture,result:testPass}, locals||{}))
 									}
 								})
 							})
