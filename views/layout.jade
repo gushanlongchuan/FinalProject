@@ -40,7 +40,7 @@ html
               a.dropdown-toggle(data-toggle="dropdown", role="button", aria-expanded="false") Notifications  
               if notifs
                 span.noti_bubble #{notifs.length}
-                ul.dropdown-menu(role="menu")
+                ul.dropdown-menu(role="menu", style="width: 400px;")
                   each notif in notifs
                     +notification(notif.message, notif.url, notif.id)
 
