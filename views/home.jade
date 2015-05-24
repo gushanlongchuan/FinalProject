@@ -9,6 +9,9 @@ block content
       for each,i in images
         div.col-md-4
           div#infocontainer
+            div.col-md-12
+              a(href="/stranger/#{userids[i]}", style="padding-bottom:8px;margin-right: -16px;float: right;")
+                img.img-circle(style="width: 40px;", src='#{itemuserimages[i]}')
             p#info(onclick="imageClick('/stranger/#{userids[i]}')") #{usernames[i]}
             p#info(style="font-weight: bold;", onclick="imageClick('/posts/#{posts[i]}')") #{titles[i]}
             p#info(onclick="imageClick('/posts/#{posts[i]}')") $#{prices[i]}

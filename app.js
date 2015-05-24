@@ -54,7 +54,8 @@ mongoose.connect('mongodb://gushan:gs524410@ds061721.mongolab.com:61721/finalpro
 })
 
 // Use middleware for layout notifications
-app.use(stormpath.loginRequired, function(req, res, next) {
+app.use(['/newpost', '/profile', '/user', 'stranger', '/posts/:id', '/discover'],stormpath.loginRequired, function(req, res, next) {
+
   //Push profile pic
   res.locals['profile_pic'] = req.user.customData.profile_pic || 'images/default_profile.jpg'
   res.locals['user_id'] = req.user.href
@@ -65,9 +66,9 @@ app.use(stormpath.loginRequired, function(req, res, next) {
     }
     notifs.forEach(function(notif, idx) {
       res.locals.notifs.push({
-        message: notif.Message,
-        url: notif.Url,
-        id: notif._id
+        Message: notif.Message,
+        Url: notif.Url,
+        _id: notif._id
       })
     })
     req.current_connections = current_connections
@@ -75,82 +76,7 @@ app.use(stormpath.loginRequired, function(req, res, next) {
   })
 })
 
-function renderForm(req,res,locals){
-  res.render('home', extend({
-    title: 'home',
-  },locals||{}));
-}
-
-// Handle routes
-app.get('/', function(req, res, locals) {
-
-  req.app.get('stormpathApplication').getAccounts(function(err, accounts) {
-    if (err) return next(err);
-
-    if (!req.user) {
-      renderForm(req,res,locals||{});
-      return;
-    }
-
-    if (accounts == null) {
-      renderForm(req,res,locals||{});
-      return;
-    }
-    var friendList = new Array();
-    var count = 0;
-    postIdList = new Array();
-    urlList = new Array();
-    titleList = new Array();
-    timestampList = new Array();
-    usernameList = new Array();
-    useridList = new Array();
-    priceList = new Array();
-    var selfId = req.user.href.split("/")[5];
-
-    Friend.find({User_id:selfId},function(err,results){
-      for(var i = 0; i < results.length; i++) {
-        friendList[i] = results[i].Friend_id;
-      }
-
-      Post.find({}, {}, { sort: { 'TimeStamp' : -1 } }, function(err, timeFindResults) {
-        for(var i = 0; i < timeFindResults.length; i++) {
-          for(var j = 0; j < friendList.length; j++) {
-            if (timeFindResults[i].User_id.split("/")[5] == friendList[j]) {
-              postIdList[count] = timeFindResults[i]._id;
-              urlList[count] = timeFindResults[i].Image_path;
-              titleList[count] = timeFindResults[i].Title_of_post;
-              timestampList[count] = timeFindResults[i].TimeStamp;
-              usernameList[count] = timeFindResults[i].Username;
-              priceList[count] = timeFindResults[i].Price;
-              useridList[count] = timeFindResults[i].User_id.split("/")[5];
-              count++;
-              break;
-            }
-          }
-          if (count == 10)
-            break;
-        }
-
-        var user_pic;
-        if (!req.user.customData.profile_pic)
-          user_pic = "images/default_profile.jpg";
-        else
-          user_pic = req.user.customData.profile_pic;
-        renderForm(req,res,extend({
-          posts: postIdList,
-          images: urlList,
-          profile_pic: user_pic,
-          titles: titleList,
-          timestamps: timestampList,
-          usernames: usernameList,
-          userids: useridList,
-          prices: priceList
-        }, locals||{}));
-      });
-    });
-  });
-});
-
+app.use('/',require('./home'));
 app.use('/profile',stormpath.loginRequired,require('./profile')());
 app.use('/user',stormpath.loginRequired,require('./user'));
 app.use('/newpost',stormpath.loginRequired,require('./newpost'));

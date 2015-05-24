@@ -42,9 +42,9 @@ html
               a.dropdown-toggle(data-toggle="dropdown", role="button", aria-expanded="false") Notifications  
               if notifs
                 span.noti_bubble #{notifs.length}
-                ul.dropdown-menu(role="menu")
+                ul.dropdown-menu(role="menu", style="width: 400px;")
                   each notif in notifs
-                    +notification(notif.message, notif.url, notif.id)
+                    +notification(notif.Message, notif.Url, notif._id)
 
             li
               a(href="/newpost") New post
@@ -52,7 +52,7 @@ html
               a(href="/discover") Discover
             li
               a(href="/user", style="padding-bottom:5px;padding-top:5px;")
-                img.img-circle(src='../' + profile_pic + '?dim=40x40')
+                img.img-circle(style="width: 40px;", src='../' + profile_pic)
             li 
               a(href="/logout") Logout
           form.navbar-form.navbar-left

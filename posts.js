@@ -9,6 +9,7 @@ var moment = require('moment');
 var Post = require('./module/post_table.js');
 var Comment = require('./module/comment_table.js');
 var Notif = require('./module/notif_table.js');
+var Like = require('./module/like_table.js');
 
 var router = express.Router();
 
@@ -93,8 +94,20 @@ router.post('/', stormpath.loginRequired, function(req, res, locals) {
 			req.current_connections["https://api.stormpath.com/v1/accounts/" + topass.post_data.User_id].emit('newnotif', {coucou: 'data'})
 		}
 	}
-	res.render('posts', extend(topass,locals||{}))
-	
+	else if(req.body.type == "like"){
+		var like = {
+			Liker_id: U_id,
+			Post_id: id
+		}
+		Like.create(like, function(err, like_result){
+			if (err) console.log(err)
+			topass.post_data.Likes += 1;
+			topass.post_data.Has_liked = 'true';
+			res.render('posts', extend(topass,locals||{}))
+		})
+	}
+	if(req.body.type != "like")
+		res.render('posts', extend(topass,locals||{}))
 })
 
 //Process GET
@@ -108,62 +121,72 @@ router.get('/', stormpath.loginRequired, function(req, res, locals) {
 		if (err) {
 			console.log(err)
 		}
-
-		// Get info about the seller
-		client.getResource(post.User_id+'/customData', function(err, sellerData) {
-
-			// Data to pass to view
-			topass = {
-				// Title of the page
-				title: 'Posts',
-				// Current user data
-				user_data: {
-					User_id: req.user.href,
-					Username: req.user.givenName.charAt(0).toUpperCase() + req.user.givenName.toLowerCase().slice(1) + ' ' + req.user.surname.charAt(0).toUpperCase() + req.user.surname.toLowerCase().slice(1),
-					User_pic: req.user.customData.profile_pic || 'images/default_profile.jpg'
-				},
-				// Data of the post being viewed
-				post_data: {
-					Title_of_post: post.Title_of_post,
-					Description: post.Description,
-					Price: post.Price,
-					Image_path: post.Image_path,
-					Time: moment(post.TimeStamp).format('MMMM Do') + ' at ' +  moment(post.TimeStamp).format('h:mm a'),
-					User_id: post.User_id.split("/")[5],
-					Username: post.Username,
-					User_pic: sellerData.profile_pic || 'images/default_profile.jpg',
-					Comments: []
-				},
-				csrfToken: req.csrfToken()
-			}
-
-			// If sold
-			if (post.Status) {
-				topass['sold'] = true
-			}
-
-			//Get comments
-			Comment.find({ Post_id: id }, function(err, comments) {
-				//For each comment
-				comments.forEach(function(com, idx) {
-					//Get user's customData
-					client.getResource(com.User_id+'/customData', function(err, commenterData) {
-						//Pass to view
-						topass.post_data.Comments.push({
-							user_id: com.User_id.split("/")[5],
-							user_name: com.Username,
-							user_pic: commenterData.profile_pic || 'images/default_profile.jpg',
-							text: com.Content
-						})
-						if (topass.post_data.Comments.length == comments.length) {
-							res.render('posts', extend(topass,locals||{}))
-						}
-					})
-				})
-				// Render to the view all the information about the post and the seller
-				if (comments.length == 0) {
-					res.render('posts', extend(topass,locals||{}))
+		Like.find({Post_id: id}, function(err, count_like){
+			if (err) return err;
+			var has_liked = 'false';
+			count_like.forEach(function (eachlike, idx){
+				if (eachlike.Liker_id == U_id) {
+					has_liked = 'true';
 				}
+			})
+		// Get info about the seller
+			client.getResource(post.User_id+'/customData', function(err, sellerData) {
+
+				// Data to pass to view
+				topass = {
+					// Title of the page
+					title: 'Posts',
+					// Current user data
+					user_data: {
+						User_id: req.user.href,
+						Username: req.user.givenName.charAt(0).toUpperCase() + req.user.givenName.toLowerCase().slice(1) + ' ' + req.user.surname.charAt(0).toUpperCase() + req.user.surname.toLowerCase().slice(1),
+						User_pic: req.user.customData.profile_pic || 'images/default_profile.jpg'
+					},
+					// Data of the post being viewed
+					post_data: {
+						Title_of_post: post.Title_of_post,
+						Description: post.Description,
+						Price: post.Price,
+						Image_path: post.Image_path,
+						Time: moment(post.TimeStamp).format('MMMM Do') + ' at ' +  moment(post.TimeStamp).format('h:mm a'),
+						User_id: post.User_id.split("/")[5],
+						Username: post.Username,
+						User_pic: sellerData.profile_pic || 'images/default_profile.jpg',
+						Likes: count_like.length,
+						Has_liked: has_liked, 
+						Comments: []
+					},
+					csrfToken: req.csrfToken()
+				}
+
+				// If sold
+				if (post.Status) {
+					topass['sold'] = true
+				}
+
+				//Get comments
+				Comment.find({ Post_id: id }, function(err, comments) {
+					//For each comment
+					comments.forEach(function(com, idx) {
+						//Get user's customData
+						client.getResource(com.User_id+'/customData', function(err, commenterData) {
+							//Pass to view
+							topass.post_data.Comments.push({
+								user_id: com.User_id.split("/")[5],
+								user_name: com.Username,
+								user_pic: commenterData.profile_pic || 'images/default_profile.jpg',
+								text: com.Content
+							})
+							if (topass.post_data.Comments.length == comments.length) {
+								res.render('posts', extend(topass,locals||{}))
+							}
+						})
+					})
+					// Render to the view all the information about the post and the seller
+					if (comments.length == 0) {
+						res.render('posts', extend(topass,locals||{}))
+					}
+				})
 			})
 		})
 	})

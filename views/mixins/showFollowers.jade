@@ -1,10 +1,10 @@
 
 mixin showFollowers(follower)
 	li(style="padding:10px 70px")
-		div.container(style="width:100px;height:30px;")
+		div.container(style="width:100px;height:20px;")
 			div.col-md-3(style="margin-left:-45px;margin-top:-10px")
-				div.container(style="width:30px;height:30px;margin-left:-60px",align="left")
-					img.img-circle(src='../images/default_profile.jpg',style="width:30px;")
+				div.container(style="width:10px;height:30px;margin-left:-60px",align="left")
+					img.img-circle(src='../'+follower.User_picture,style="width:30px;")
 			div.col-md-9
-				div.container(style="width:50px;height:10px;margin-top:-7px;margin-left:-50px")
+				div.container(style="width:50px;height:10px;margin-top:-7px;margin-left:-30px")
 					a(href='/stranger/'+follower.User_id,style="text-decoration:none;") #{follower.Username.split(" ")}
