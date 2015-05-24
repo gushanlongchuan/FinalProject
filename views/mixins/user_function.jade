@@ -15,7 +15,7 @@ mixin user_function(each, following,followers,posts)
 									a(href='/user/'+each.content.post_data._id,style="margin-top:3;text-decoration:none;color:black;") Comments(#{each.content.post_data.Comments.length})
 							div.col-md-3(align="right")
 								if (each.content.post_data.Status == 1)
-									h4(style="color:#0066FF;") Sold Out
+									h4(style="color:#0066FF;margin-right:-40px") Sold Out
 								else
 									h4(style="color:#00CC00;margin-right:-40px") In Stock
 							div.col-md-3(align="right")
