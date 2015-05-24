@@ -44,7 +44,7 @@ mongoose.connect('mongodb://gushan:gs524410@ds061721.mongolab.com:61721/finalpro
 })
 
 // Use middleware for layout notifications
-app.use(['/newpost', '/profile', '/user', 'stranger', '/posts/:id', '/discover'],stormpath.loginRequired, function(req, res, next) {
+app.use(['/newpost', '/profile', '/user', '/stranger', '/posts/:id', '/discover'],stormpath.loginRequired, function(req, res, next) {
 
   //Push profile pic
   res.locals['profile_pic'] = req.user.customData.profile_pic || 'images/default_profile.jpg'
