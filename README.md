@@ -9,6 +9,8 @@ In the root directory,
 3. Tyoe node app.js to start the server
 4. Go to localhost:3000 to start InsTrade!
 
+ps. You need a stormpath apikey to run the code.
+
 ps. In you app.js file, you add this line below and you will connect to the mongodb cloud
 	mongoose.connect('mongodb://gushan:gs524410@ds061721.mongolab.com:61721/finalproject');
 
