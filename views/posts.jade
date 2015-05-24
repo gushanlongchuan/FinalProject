@@ -62,10 +62,27 @@ block content
                 button.btn.btn-primary(type="submit", style="width:50%;") Buy
 
           div.col-md-12#commentscutter
-            h3(style="margin-left: 10px;") Comments
-            each val in post_data.Comments
-              +comment(val.user_pic, val.user_id, val.user_name, val.text, user_data.User_id.split('/')[5])
+            div.container(style = "width:350px;margin-left:-20px")
+              div.col-md-8(align="left")
+                h4(style="margin-left: 10px;") Comments (#{post_data.Comments.length})
+              div.col-md-4(align="right")
+                div.container(style="width:140px")
+                  div.col-md-4(align="right",style="margin-left:0px")
+                    h4(style="color:black") Like
+                  div.col-md-4(align="left")
+                    h4 (#{post_data.Likes})
+                  div.col-md-4(style="margin-top:9px;")
+                    form(method="post")
+                      input(name='_csrf', type='hidden', value=csrfToken)
+                      input(name='type', type='hidden', value='like')
+                      if post_data.Has_liked == 'true'
+                        img.img-circle(src='../images/like.jpg',style="width:20px;height=20px;")
+                      else
+                        input(type="image",src="../images/like.jpg",alt="Submit",width="20px",height="20px")
             div.container
+              each val in post_data.Comments
+               +comment(val.user_pic, val.user_id, val.user_name, val.text, user_data.User_id.split('/')[5])
+            div.container(style="margin-left:15px")
               form(name='comment', method='post')
                 input(name='_csrf', type='hidden', value=csrfToken)
                 input(name='type', type='hidden', value='comment')
