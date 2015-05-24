@@ -42,7 +42,7 @@ html
                 span.noti_bubble #{notifs.length}
                 ul.dropdown-menu(role="menu", style="width: 400px;")
                   each notif in notifs
-                    +notification(notif.message, notif.url, notif.id)
+                    +notification(notif.Message, notif.Url, notif._id)
 
             li
               a(href="/newpost") New post

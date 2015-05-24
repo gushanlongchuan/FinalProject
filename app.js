@@ -43,27 +43,6 @@ mongoose.connect('mongodb://gushan:gs524410@ds061721.mongolab.com:61721/finalpro
 	}
 })
 
-// Use middleware for layout notifications
-app.use(stormpath.loginRequired, function(req, res, next) {
-
-  //Push profile pic
-  res.locals['profile_pic'] = req.user.customData.profile_pic || 'images/default_profile.jpg'
-  //Push notifications
-  Notif.find({User_id: req.user.href.split("/")[5]}, function(err, notifs) {
-    if (notifs.length > 0) {
-      res.locals['notifs'] = []
-    }
-    notifs.forEach(function(notif, idx) {
-      res.locals.notifs.push({
-        message: notif.Message,
-        url: notif.Url,
-        id: notif._id
-      })
-    })
-    next()
-  })  
-})
-
 io.on('connection', function ( socket ) {
   //console.log('yessss')
   //socket.emit('connect', { hello: 'world' });
@@ -129,21 +108,25 @@ app.get('/', function(req, res, locals) {
             break;
         }
 
-        var user_pic;
-        if (!req.user.customData.profile_pic)
-          user_pic = "images/default_profile.jpg";
-        else
-          user_pic = req.user.customData.profile_pic;
-        renderForm(req,res,extend({
-          posts: postIdList,
-          images: urlList,
-          profile_pic: user_pic,
-          titles: titleList,
-          timestamps: timestampList,
-          usernames: usernameList,
-          userids: useridList,
-          prices: priceList
-        }, locals||{}));
+        Notif.find({User_id: req.user.href.split("/")[5]}, function(err, notifs) {
+          var user_pic;
+          if (!req.user.customData.profile_pic)
+            user_pic = "images/default_profile.jpg";
+          else
+            user_pic = req.user.customData.profile_pic;
+          renderForm(req,res,extend({
+            posts: postIdList,
+            images: urlList,
+            profile_pic: user_pic,
+            titles: titleList,
+            timestamps: timestampList,
+            usernames: usernameList,
+            userids: useridList,
+            prices: priceList,
+            notifs: notifs
+          }, locals||{}));
+        });
+
       });
     });
   });
