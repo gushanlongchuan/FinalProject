@@ -64,6 +64,14 @@ app.use(stormpath.loginRequired, function(req, res, next) {
   })  
 })
 
+io.on('connection', function ( socket ) {
+  //console.log('yessss')
+  //socket.emit('connect', { hello: 'world' });
+  socket.on('notif', function (notif_id) {
+    console.log(notif_id);
+    Notif.find({_id: notif_id.id}).remove(function(err, result) {})
+  });
+});
 
 function renderForm(req,res,locals){
   res.render('home', extend({
@@ -139,16 +147,6 @@ app.get('/', function(req, res, locals) {
       });
     });
   });
-});
-
-io.on('connection', function ( socket ) {
-  // console.log('yessss')
-  //socket.emit('connect', { hello: 'world' });
-  socket.on('notif', function (notif_id) {
-    console.log(notif_id);
-    Notif.find({_id: notif_id.id}).remove(function(err, result) {})
-  });
-    
 });
 
 app.use('/profile',stormpath.loginRequired,require('./profile')());
