@@ -7,9 +7,9 @@ block title
 	title=title
 block content
 	div.container
-		div.container(style="width:1200px;height:150px")
-			div.col-md-6(align="center",style="padding-left: 30px;")
-				div.page-header(style="margin-top:10px")
+		div.container(style="width:auto;")
+			div.page-header(style="margin-top:10px")
+			div.col-md-6(align="center")
 				if User_pic
 					img.img-circle(src='../'+User_pic,style="width:60px;")
 					//img.img-circle(src='../images/like.jpg')
@@ -18,27 +18,33 @@ block content
 				h5 #{user.fullName}
 
 			div.col-md-6(align="right")
-				div.page-header(style="margin-top:20px;")
-				div.container(style="width:600px;margin-left:-10px")
+				div.container(style="width:auto;")
 					div.col-md-4(align="center")
-						h4 #{posts}
-						button.btn.btn-primary(disabled) posts
+						div.dropdown
+							button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
+								b #{posts} 
+								| posts 
 					div.col-md-4(align="center")
-						h4 #{followers.length}
-						//button.btn.btn-success Follower
-						a.dropdown-toggle(data-toggle="dropdown", role="button", aria-expanded="false",type="button.btn.btn-success")  Follower
+						div.dropdown
+							button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
+								b #{followers.length} 
+								| follower 
+								span.caret
 							ul.dropdown-menu(role='menu', aria-labelledby='menu1')
 								for follower in followers
-									+showFollowers(follower)					
+									+showFollowers(follower)
 					div.col-md-4(align="center")
-						h4   #{following.length} 
-						//button.btn.btn-success
-						a.dropdown-toggle(data-toggle="dropdown", role="button", aria-expanded="false") Following 
+						div.dropdown
+							button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
+								b #{following.length} 
+								| following 
+								span.caret
 							ul.dropdown-menu(role='menu', aria-labelledby='menu1')
 								for followee in following
 									+showFollowees(followee)
 				//div.container(style="width:220px;height:20px;background-color:#D3D3CF;",align = "center")
-				//	a(href="/profile", style="text-decoration:none;") edit your profile     
+				//	a(href="/profile", style="text-decoration:none;") edit your profile
+		div.page-header(style="margin-top:10px")    
 		div.container
 			if user
 				if result
