@@ -6,8 +6,8 @@ block content
 	div.container(style="background:#DFDFDF;width:650px;box-shadow:0px 0px 23px 0px #888888;margin-bottom:50px")
 		div.container(style="width:600px; margin-left:-25px;margin-bottom:10px;margin-top:10px")
 			div.col-md-3(align="center",style="padding-left: 0px;")
-				if User_pic
-					img.img-circle(src='../'+User_pic, style="width:50px")
+				if topass.user_data.User_pic
+					img.img-circle(src='../'+topass.user_data.User_pic, style="width:50px")
 				else
 					img.img-circle(src='../images/default_profile.jpg',style="width:50px")
 			div.col-md-9(align="left")
