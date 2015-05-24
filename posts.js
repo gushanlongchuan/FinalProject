@@ -87,6 +87,11 @@ router.post('/', stormpath.loginRequired, function(req, res, locals) {
 				console.log(err)
 			}
 		})
+		// Emit socket
+		if (req.current_connections["https://api.stormpath.com/v1/accounts/" + topass.post_data.User_id]) {
+			console.log("sending notifification")
+			req.current_connections["https://api.stormpath.com/v1/accounts/" + topass.post_data.User_id].emit('newnotif', {coucou: 'data'})
+		}
 	}
 	res.render('posts', extend(topass,locals||{}))
 	
@@ -94,6 +99,7 @@ router.post('/', stormpath.loginRequired, function(req, res, locals) {
 
 //Process GET
 router.get('/', stormpath.loginRequired, function(req, res, locals) {
+
 	U_id = req.user.href.split("/")[5]
 	// Search for post in the DB
 	id = req.originalUrl.split("/")[2]

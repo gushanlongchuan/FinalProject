@@ -13,9 +13,19 @@ var Friend = require('./module/Friend_table.js')
 
 var app = express();
 
+var current_connections = {}
 var server = http.Server(app);
 var io = require('socket.io')(server);
 server.listen(3000);
+io.on('connection', function(socket) {
+  socket.on('imhere', function(message) {
+    current_connections[message.token] = socket
+  })
+  socket.on('notif', function(notif_id) {
+    console.log(notif_id);
+    Notif.find({_id: notif_id.id}).remove(function(err, result) {})
+  });
+})
 
 app.set('views', './views');
 app.set('view engine', 'jade');
@@ -45,9 +55,9 @@ mongoose.connect('mongodb://gushan:gs524410@ds061721.mongolab.com:61721/finalpro
 
 // Use middleware for layout notifications
 app.use(stormpath.loginRequired, function(req, res, next) {
-
   //Push profile pic
   res.locals['profile_pic'] = req.user.customData.profile_pic || 'images/default_profile.jpg'
+  res.locals['user_id'] = req.user.href
   //Push notifications
   Notif.find({User_id: req.user.href.split("/")[5]}, function(err, notifs) {
     if (notifs.length > 0) {
@@ -60,18 +70,10 @@ app.use(stormpath.loginRequired, function(req, res, next) {
         id: notif._id
       })
     })
+    req.current_connections = current_connections
     next()
-  })  
+  })
 })
-
-io.on('connection', function ( socket ) {
-  //console.log('yessss')
-  //socket.emit('connect', { hello: 'world' });
-  socket.on('notif', function (notif_id) {
-    console.log(notif_id);
-    Notif.find({_id: notif_id.id}).remove(function(err, result) {})
-  });
-});
 
 function renderForm(req,res,locals){
   res.render('home', extend({
@@ -156,3 +158,4 @@ app.use('/stranger',stormpath.loginRequired,require('./stranger'));
 app.use('/posts/:id', stormpath.loginRequired, require('./posts'));
 app.use('/discover',stormpath.loginRequired,require('./discover'));
 //app.listen(3000);
+

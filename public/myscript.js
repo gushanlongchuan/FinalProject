@@ -16,9 +16,10 @@ function acceptNotif(id) {
 }
 
 
+socket.emit('imhere', {'token': local_data})
 // on message received we print all the data inside the #container div
-//socket.on('connect', function (data) {
-//	console.log(data)
-//	socket.emit('notif', {my: 'data'})
-//});
+socket.on('newnotif', function (data) {
+	console.log(data)
+	//console.log(local_data)	
+});
 
