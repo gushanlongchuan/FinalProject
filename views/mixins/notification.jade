@@ -1,5 +1,5 @@
 
 mixin notification(message, url, id)
   li(id=id)
-    a(href=url) #{message}
-    button.btn.btn-xs.btn-default.center(onclick="acceptNotif( '#{id}' )") OK
+    a(href=url, style="display: inline;") #{message}
+    button.btn.btn-xs.btn-success.center(onclick="acceptNotif( '#{id}' )") OK
