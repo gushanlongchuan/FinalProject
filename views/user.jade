@@ -21,12 +21,12 @@ block content
 				div.container(style="width:auto;")
 					div.col-md-4(align="center")
 						div.dropdown
-							button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
+							button#dropdownMenu1.btn.btn-success.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
 								b #{posts} 
 								| posts 
 					div.col-md-4(align="center")
 						div.dropdown
-							button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
+							button#dropdownMenu1.btn.btn-success.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
 								b #{followers.length} 
 								| follower 
 								span.caret
@@ -35,7 +35,7 @@ block content
 									+showFollowers(follower)
 					div.col-md-4(align="center")
 						div.dropdown
-							button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
+							button#dropdownMenu1.btn.btn-success.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
 								b #{following.length} 
 								| following 
 								span.caret
