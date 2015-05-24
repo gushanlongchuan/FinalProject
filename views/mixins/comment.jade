@@ -1,5 +1,6 @@
 
 mixin comment(user_pic, user_id, user_name, text, current_user_id)
+
   div.container(style="width: auto;margin-top: 5px; margin-bottom: 5px;")
     img.img-circle(style="width: 40px;" src='../'+user_pic)
     if (user_id == current_user_id)
