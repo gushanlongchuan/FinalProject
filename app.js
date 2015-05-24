@@ -103,11 +103,14 @@ app.get('/', function(req, res, locals) {
     usernameList = new Array();
     useridList = new Array();
     priceList = new Array();
+    friendImageList = new Array();
+    itemUserImage = new Array();
     var selfId = req.user.href.split("/")[5];
 
     Friend.find({User_id:selfId},function(err,results){
       for(var i = 0; i < results.length; i++) {
         friendList[i] = results[i].Friend_id;
+        friendImageList[i] = results[i].Friend_picture;
       }
 
       Post.find({}, {}, { sort: { 'TimeStamp' : -1 } }, function(err, timeFindResults) {
@@ -121,6 +124,7 @@ app.get('/', function(req, res, locals) {
               usernameList[count] = timeFindResults[i].Username;
               priceList[count] = timeFindResults[i].Price;
               useridList[count] = timeFindResults[i].User_id.split("/")[5];
+              itemUserImage[count] = friendImageList[j];
               count++;
               break;
             }
@@ -144,7 +148,8 @@ app.get('/', function(req, res, locals) {
             usernames: usernameList,
             userids: useridList,
             prices: priceList,
-            notifs: notifs
+            notifs: notifs,
+            itemuserimages: itemUserImage
           }, locals||{}));
         });
       });
