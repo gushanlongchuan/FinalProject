@@ -79,7 +79,7 @@ app.use(['/newpost', '/profile', '/user', '/stranger', '/posts/:id', '/discover'
 
 function renderForm(req,res,locals){
   res.render('home', extend({
-    title: 'home',
+    title: 'InsTrade',
   },locals||{}));
 }
 
@@ -144,6 +144,7 @@ app.get('/', function(req, res, locals) {
           else
             user_pic = req.user.customData.profile_pic;
           renderForm(req,res,extend({
+            title: 'InsTrade',
             posts: postIdList,
             images: urlList,
             profile_pic: user_pic,
@@ -167,5 +168,3 @@ app.use('/newpost',stormpath.loginRequired,require('./newpost'));
 app.use('/stranger',stormpath.loginRequired,require('./stranger'));
 app.use('/posts/:id', stormpath.loginRequired, require('./posts'));
 app.use('/discover',stormpath.loginRequired,require('./discover'));
-//app.listen(3000);
-

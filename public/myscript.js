@@ -2,7 +2,7 @@
 // create a new websocket
 var socket = io.connect("http://localhost:3000");
 
-
+// Send info to server when user accepts notif
 function acceptNotif(id) {
 	//send socket
 	socket.emit('notif', {'id': id})
@@ -15,11 +15,22 @@ function acceptNotif(id) {
 	}
 }
 
+// Hide notif when 0
+$(document).ready(function(){
+	if ($('.noti_bubble').html() == "0") {
+		$('.noti_bubble').hide()
+	}
+})
 
+// Emit first socket
 socket.emit('imhere', {'token': local_data})
-// on message received we print all the data inside the #container div
+
+// On message received 
 socket.on('newnotif', function (data) {
 	console.log(data)
-	//console.log(local_data)	
+	// add notif to dropdown
+	$('#notifs_dd').append('<li id="' + data._id + '" style="margin-top: 5px;"><a href="' + data.Url + '" style="display: inline;">' + data.Message + '</a><button class="btn btn-xs btn-success center" onclick="acceptNotif(\'' + data._id + '\')" style="float: right;">OK</button></li>')
+	// increase count
+	$('.noti_bubble').html( parseInt($('.noti_bubble').html()) + 1 )
 });
 

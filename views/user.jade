@@ -1,17 +1,19 @@
-
 include mixins/user_function
 include mixins/showFollowees
 include mixins/showFollowers
+
 extends ./layout.jade
+
 block title
 	title=title
+
 block content
 	div.container
 		div.container(style="width:auto;")
 			div.page-header(style="margin-top:10px")
 			div.col-md-6(align="center")
 				if User_pic
-					img.img-circle(src='../'+User_pic,style="width:60px;")
+					img.img-circle(src='../'+User_pic+'?dim=60x60',style="width:60px;")
 					//img.img-circle(src='../images/like.jpg')
 				else
 					img.img-circle(src='../images/default_profile.jpg',style="width:60px;")
