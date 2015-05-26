@@ -1,7 +1,7 @@
-=================================================================
-Final Project for Cloud Computing 2015 Spring
+
+##Final Project for Cloud Computing 2015 Spring
+
 Team members: Alice Berard, Bowen Wang, Miao Lin, Shanlongchuan Gu
-=================================================================
 
 ## Instructions
 In the root directory:
