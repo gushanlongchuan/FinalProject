@@ -25,8 +25,10 @@ After you login, click `finalproject` and you will see all the tables.
 
 ## Frameworks
 
-We used [Express](http://expressjs.com/), a web framework for [Node.js](https://nodejs.org/).
+We used [Express](http://expressjs.com/), a web framework for [Node.js](https://nodejs.org/). We developed some middlewares for for application level data, such as the notificatios system, profile picture and information about the current user, etc.
+
 We connected to [mongoDB](https://www.mongodb.org/) with [Mongoose](http://mongoosejs.com/).
+
 We used [Stormpath](https://stormpath.com/) for authentication and user management.
 
 ## Authentication
