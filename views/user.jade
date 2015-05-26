@@ -8,57 +8,63 @@ block title
 	title=title
 
 block content
-	div.container
-		div.container(style="width:auto;")
-			div.page-header(style="margin-top:10px")
-			div.col-md-6(align="center")
-				if User_pic
-					img.img-circle(src='../'+User_pic+'?dim=60x60',style="width:60px;")
-					//img.img-circle(src='../images/like.jpg')
-				else
-					img.img-circle(src='../images/default_profile.jpg',style="width:60px;")
-				h5 #{user.fullName}
 
-			div.col-md-6(align="right")
-				div.container(style="width:auto;")
-					div.col-md-4(align="center")
-						div.dropdown
-							button#dropdownMenu1.btn.btn-success.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
-								b #{posts} 
-								| posts 
-					div.col-md-4(align="center")
-						div.dropdown
-							button#dropdownMenu1.btn.btn-success.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
-								b #{followers.length} 
-								| follower 
-								span.caret
-							ul.dropdown-menu(role='menu', aria-labelledby='menu1')
-								for follower in followers
-									+showFollowers(follower)
-					div.col-md-4(align="center")
-						div.dropdown
-							button#dropdownMenu1.btn.btn-success.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
-								b #{following.length} 
-								| following 
-								span.caret
-							ul.dropdown-menu(role='menu', aria-labelledby='menu1')
-								for followee in following
-									+showFollowees(followee)
-				//div.container(style="width:220px;height:20px;background-color:#D3D3CF;",align = "center")
-				//	a(href="/profile", style="text-decoration:none;") edit your profile
-		div.page-header(style="margin-top:10px")    
-		div.container
-			if user
-				if result
-					for each in result
-						+user_function(each,following,followers,posts)
+	div.container(style="width: auto;")
 
+		div.page-header
+			h1#discoverhead My posts
+
+	div.container(style="width: auto;")
+
+		div.col-md-6(align="center")
+			if User_pic
+				img.img-circle(src='../'+User_pic+'?dim=60x60',style="width:60px;")
+				//img.img-circle(src='../images/like.jpg')
 			else
-				p
-					Welcome to my app, ready to get started?
-				p 
-					a.btn.btn-primary(href="/login") Login now
-				p
-					span.small Don't have an account?
-					span &nbsp;
-					a.small(href="/register") Register now
+				img.img-circle(src='../images/default_profile.jpg?dim=60x60',style="width:60px;")
+			h5 #{user.fullName}
+			div.container(style="width:220px;height:20px;background-color:#D3D3CF;",align = "center")
+				a(href="/profile", style="text-decoration:none;") edit your profile
+
+
+		div.col-md-6(align="right")
+			div.container(style="width:auto;")
+				div.col-md-4(align="center")
+					div.dropdown
+						button#dropdownMenu1.btn.btn-success.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
+							b #{posts} 
+							| posts 
+				div.col-md-4(align="center")
+					div.dropdown
+						button#dropdownMenu1.btn.btn-success.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
+							b #{followers.length} 
+							| followers 
+							span.caret
+						ul.dropdown-menu(role='menu', aria-labelledby='menu1')
+							for follower in followers
+								+showFollowers(follower)
+				div.col-md-4(align="center")
+					div.dropdown
+						button#dropdownMenu1.btn.btn-success.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
+							b #{following.length} 
+							| following 
+							span.caret
+						ul.dropdown-menu(role='menu', aria-labelledby='menu1')
+							for followee in following
+								+showFollowees(followee)
+	div.page-header(style="margin-top:10px")    
+	div.container
+		if user
+			if result
+				for each in result
+					+user_function(each,following,followers,posts)
+
+		else
+			p
+				Welcome to my app, ready to get started?
+			p 
+				a.btn.btn-primary(href="/login") Login now
+			p
+				span.small Don't have an account?
+				span &nbsp;
+				a.small(href="/register") Register now

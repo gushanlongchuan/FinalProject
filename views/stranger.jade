@@ -2,13 +2,18 @@ include mixins/comment
 extends ./layout.jade
 
 block title
-	title=title
+	title=strangerData.fullName
 
 block content
-		div.container
-			div.page-header(style="margin-top:10px")
+
+	div.container(style="width: auto;")
+
+		div.page-header
+			h1#discoverhead #{strangerData.fullName}
+
+		div.container(style="width: auto;")
 			div.col-md-6(align = "center")
-				img.img-circle(style="width: 60px;" src='../'+User_pic)
+				img.img-circle(style="width: 60px;" src='../'+User_pic+'?dim=60x60')
 				h5
 					p
 					a(href='../stranger/'+strangerData.href.split("/")[5]) #{strangerData.fullName}
@@ -37,5 +42,5 @@ block content
 			div.container(style="width:auto;")
 			#results
 				ul(style="list-style-type: none;")
-					for picture in results	
+					for picture in results
 						include user_home

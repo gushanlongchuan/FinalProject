@@ -5,28 +5,28 @@ block title
 
 block content
 
+  div.container(style="width: auto;")
+
+    div.page-header
+      h1#discoverhead Search results for: "#{kw}"
+
     div.container(style="width: auto;")
 
-      div.page-header
-        h1#discoverhead Search results for: "#{kw}"
+      if !results.length
+        p Sorry, there are no results for this search.            
 
-      div.container(style="width: auto;")
-
-        if !results.length
-          p Sorry, there are no results for this search.            
-
-        each res in results
-          div.col-md-4
-            div#infocontainer
-              div.col-md-12
-                a(href="/stranger/#{res.User_id}", style="padding-bottom:8px;margin-right: -16px;float: right;")
-                  img.img-circle(style="width: 40px;", src='../' + "#{res.profile_pic}" + '?dim=40x40')
-              a(href="/stranger/#{res.User_id}")
-                p#info #{res.Username}
-              a(href="/posts/#{res._id}")
-                p(style="font-weight: bold; text-align: right") #{res.Title_of_post}
-              p(style="text-align: right") #{res.Description}
-              p(style="text-align: right") $#{res.Price}
-          div.col-md-8#imagecontainer
-            a(href='/posts/#{res._id}')
-              img(id="homepageimage", src="../" + "#{res.Image_path}")
+      each res in results
+        div.col-md-4
+          div#infocontainer
+            div.col-md-12
+              a(href="/stranger/#{res.User_id}", style="padding-bottom:8px;margin-right: -16px;float: right;")
+                img.img-circle(style="width: 40px;", src='../' + "#{res.profile_pic}" + '?dim=40x40')
+            a(href="/stranger/#{res.User_id}")
+              p#info #{res.Username}
+            a(href="/posts/#{res._id}")
+              p(style="font-weight: bold; text-align: right") #{res.Title_of_post}
+            p(style="text-align: right") #{res.Description}
+            p(style="text-align: right") $#{res.Price}
+        div.col-md-8#imagecontainer
+          a(href='/posts/#{res._id}')
+            img(id="homepageimage", src="../" + "#{res.Image_path}")

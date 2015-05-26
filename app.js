@@ -54,30 +54,34 @@ mongoose.connect('mongodb://gushan:gs524410@ds061721.mongolab.com:61721/finalpro
 })
 
 // Use middleware for layout notifications
-app.use(['/newpost', '/profile', '/user', '/stranger', '/posts/:id', '/discover', '/search'],stormpath.loginRequired, function(req, res, next) {
+app.use(function(req, res, next) {
 
-  //Push profile pic
-  res.locals['profile_pic'] = req.user.customData.profile_pic || 'images/default_profile.jpg'
-  res.locals['user_id'] = req.user.href
-  //Push notifications
-  Notif.find({User_id: req.user.href.split("/")[5]}, function(err, notifs) {
-    if (notifs.length > 0) {
-      res.locals['notifs'] = []
-    }
-    notifs.forEach(function(notif, idx) {
-      res.locals.notifs.push({
-        Message: notif.Message,
-        Url: notif.Url,
-        _id: notif._id
+  if (req.user) {
+    //Push profile pic
+    res.locals['profile_pic'] = req.user.customData.profile_pic || 'images/default_profile.jpg'
+    res.locals['user_id'] = req.user.href
+    //Push notifications
+    Notif.find({User_id: req.user.href.split("/")[5]}, function(err, notifs) {
+      if (notifs.length > 0) {
+        res.locals['notifs'] = []
+      }
+      notifs.forEach(function(notif, idx) {
+        res.locals.notifs.push({
+          Message: notif.Message,
+          Url: notif.Url,
+          _id: notif._id
+        })
       })
+      req.current_connections = current_connections
+      next()
     })
-    req.current_connections = current_connections
+  } else {
     next()
-  })
+  }
 })
 
 // Use middleware to handle searches
-app.use(stormpath.loginRequired, function(req, res, next) {
+app.use(function(req, res, next) {
   if (req.body.type == "search") {
     res.redirect('/search/' + req.body.search)
   } else {
@@ -141,30 +145,21 @@ app.get('/', function(req, res, locals) {
               break;
             }
           }
-          if (count == 10)
-            break;
+          //if (count == 10)
+          //  break;
         }
 
-        Notif.find({User_id: req.user.href.split("/")[5]}, function(err, notifs) {
-          var user_pic;
-          if (!req.user.customData.profile_pic)
-            user_pic = "images/default_profile.jpg";
-          else
-            user_pic = req.user.customData.profile_pic;
-          renderForm(req,res,extend({
-            title: 'InsTrade',
-            posts: postIdList,
-            images: urlList,
-            profile_pic: user_pic,
-            titles: titleList,
-            timestamps: timestampList,
-            usernames: usernameList,
-            userids: useridList,
-            prices: priceList,
-            notifs: notifs,
-            itemuserimages: itemUserImage
-          }, locals||{}));
-        });
+        renderForm(req,res,extend({
+          title: 'InsTrade',
+          posts: postIdList,
+          images: urlList,
+          titles: titleList,
+          timestamps: timestampList,
+          usernames: usernameList,
+          userids: useridList,
+          prices: priceList,
+          itemuserimages: itemUserImage
+        }, locals||{}));
       });
     });
   });
