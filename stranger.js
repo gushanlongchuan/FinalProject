@@ -44,6 +44,7 @@ router.get('/:stranger_id', function(req, res, locals){
 									results : results,
 									clickable:clickable,
 									strangerData: strangerData,
+									stranger_nice_name: strangerData.givenName.charAt(0).toUpperCase() + strangerData.givenName.toLowerCase().slice(1) + ' ' + strangerData.surname.charAt(0).toUpperCase() + strangerData.surname.toLowerCase().slice(1),
 									User_pic:image_path,
 									followers:followee_num,
 									following:following_num,
@@ -65,11 +66,11 @@ router.post('/:stranger_id', function(req, res, locals){
 	var post_num = req.body.posts;
 	var following_num = req.body.following;
 	var followee_num = parseInt(req.body.followers, 10);	
-	var usrname = req.user.fullName;
+	var usrname = res.locals.user_nice_name;
 	var Usr_pic = req.user.customData.profile_pic || 'images/default_profile.jpg';
 	if(req.body.button1 == "follow"){
 		client.getResource('https://api.stormpath.com/v1/accounts/'+Stranger_id, function(err, strangerData){
-			var S_username = strangerData.fullName;
+			var S_username = strangerData.givenName.charAt(0).toUpperCase() + strangerData.givenName.toLowerCase().slice(1) + ' ' + strangerData.surname.charAt(0).toUpperCase() + strangerData.surname.toLowerCase().slice(1);
 			var s_id = strangerData.href;
 			client.getResource(strangerData.customData.href, function(err,strangerCData){
 				
@@ -80,8 +81,8 @@ router.post('/:stranger_id', function(req, res, locals){
 					Friend_id: Stranger_id,
 					Username: usrname,
 					Friendname: S_username,
-					User_picture:Usr_pic,
-					Friend_picture:User_pic
+					User_picture: Usr_pic,
+					Friend_picture: User_pic
 				}
 				Friend.create(followship, function(err, Friend){
 					var clickable = "false"

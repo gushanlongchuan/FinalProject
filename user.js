@@ -40,11 +40,11 @@ router.post('/', stormpath.loginRequired, function(req, res, locals) {
 			post_num = post_num - 1;
 			res.render('user', extend({
 				title: 'My posts',
-				result:testPass,
-				User_pic:User_pic,
-				posts:post_num,
-				following:following_num,
-				followers:followee_num
+				result: testPass,
+				User_pic: User_pic,
+				posts: post_num,
+				following: following_num,
+				followers: followee_num
 			}, locals||{}))
 		})
 	}
@@ -117,17 +117,17 @@ router.get('/', function(req, res, locals) {
 			console.log(User_picture)
 		}
 		if (err) return err;
-		Friend.find({User_id:U_id}, function(err,following){
+		Friend.find({User_id: U_id}, function(err, following){
 			var following_num = following;
-			Friend.find({Friend_id:U_id}, function(err,followee){
+			Friend.find({Friend_id: U_id}, function(err, followee){
 				var followee_num = followee;
 				if (results.length == 0){
 					res.render('user', extend({
 						title: 'My posts',
-						posts:post_num,
-						following:following_num,
-						followers:followee_num,
-						User_pic:User_picture
+						posts: post_num,
+						following: following_num,
+						followers: followee_num,
+						User_pic: User_picture
 					}, locals||{}))
 				}
 				results.forEach(function(result, idx) {
@@ -170,11 +170,11 @@ router.get('/', function(req, res, locals) {
 								if(testPass.length == results.length){
 									res.render('user', extend({
 										title: 'My posts',
-										result:testPass,
-										followers:followee_num,
-										following:following_num,
-										posts:post_num,
-										User_pic:User_picture
+										result: testPass,
+										followers: followee_num,
+										following: following_num,
+										posts: post_num,
+										User_pic: User_picture
 									}, locals||{}))
 								}
 							}
@@ -198,11 +198,11 @@ router.get('/', function(req, res, locals) {
 										if(testPass.length == results.length && topass.post_data.Comments.length == comments.length){
 											res.render('user', extend({
 												title: 'My posts',
-												posts:post_num,
-												following:following_num,
-												followers:followee_num,
-												User_pic:User_picture,
-												result:testPass
+												posts: post_num,
+												following: following_num,
+												followers: followee_num,
+												User_pic: User_picture,
+												result: testPass
 											}, locals||{}))
 										}
 									})
@@ -270,4 +270,5 @@ router.get('/:post_id',function(req,res,locals){
 		})
 	})
 })
+
 module.exports = router;

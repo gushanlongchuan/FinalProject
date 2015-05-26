@@ -2,21 +2,21 @@ include mixins/comment
 extends ./layout.jade
 
 block title
-	title=strangerData.fullName
+	title=stranger_nice_name
 
 block content
 
 	div.container(style="width: auto;")
 
 		div.page-header
-			h1#discoverhead #{strangerData.fullName}
+			h1#discoverhead #{stranger_nice_name}
 
 		div.container(style="width: auto;")
 			div.col-md-6(align = "center")
 				img.img-circle(style="width: 60px;" src='../'+User_pic+'?dim=60x60')
 				h5
 					p
-					a(href='../stranger/'+strangerData.href.split("/")[5]) #{strangerData.fullName}
+					a(href='../stranger/'+strangerData.href.split("/")[5]) #{stranger_nice_name}
 				form(name = 'form1', method = "post", action="/stranger/"+strangerData.href.split("/")[5])
 					input(name='posts',type='hidden',value=posts)
 					input(name='following',type='hidden',value=following)

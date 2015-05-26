@@ -19,13 +19,13 @@ In the root directory:
 mongoose.connect('mongodb://gushan:gs524410@ds061721.mongolab.com:61721/finalproject');
 ```
 
-The account is `gushan`, the password is `gs524410`.
+The account is `gushan`, and the password is `gs524410`.
 If you want to login the website to view the tables, you can go to [Mongolab](https://mongolab.com) and login with the account and password above.
 After you login, click `finalproject` and you will see all the tables.
 
 ## Frameworks
 
-We used [Express](http://expressjs.com/), a web framework for [Node.js](https://nodejs.org/). We developed some middlewares for for application level data, such as the notificatios system, profile picture and information about the current user, etc.
+We used [Express](http://expressjs.com/), a web framework for [Node.js](https://nodejs.org/). We developed some middlewares for for application level data, such as the notifications system, current user's profile picture and personal information, etc.
 
 We connected to [mongoDB](https://www.mongodb.org/) with [Mongoose](http://mongoosejs.com/).
 
@@ -39,7 +39,7 @@ We also use it as our **user database**: it can store basic information about a 
 
 ## Functionalities
 
-In the code, there are 8 main URLs including the index page:
+In the code, there are **8 main URLs** including the index page:
 
 1. `/`
 2. `/user`

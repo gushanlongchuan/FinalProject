@@ -7,12 +7,12 @@ block content
 		div.container(style="width:600px; margin-left:-25px;margin-bottom:10px;margin-top:10px")
 			div.col-md-3(align="center",style="padding-left: 0px;")
 				if topass.user_data.User_pic
-					img.img-circle(src='../'+topass.user_data.User_pic, style="width:50px")
+					img.img-circle(src='../'+topass.user_data.User_pic+'?dim=50x50', style="width:50px")
 				else
-					img.img-circle(src='../images/default_profile.jpg',style="width:50px")
+					img.img-circle(src='../images/default_profile.jpg?dim=50x50',style="width:50px")
 			div.col-md-9(align="left")
 				p(style="color:black")
-				h4(style="color:black") #{user.fullName} 
-				|post this picture on #{topass.post_data.Time}
+				h4(style="color:black") #{user_nice_name} 
+				|posted this item on #{topass.post_data.Time}
 		div.container(style="margin-left:-35px")
 			+user_home_post(topass)
