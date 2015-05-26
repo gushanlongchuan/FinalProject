@@ -55,7 +55,9 @@ html
                 img.img-circle(style="width: 40px;", src='../' + profile_pic + '?dim=40x40')
             li 
               a(href="/logout") Logout
-          form.navbar-form.navbar-left
-            input.form-control(type="text", placeholder="Search...")
+          form.navbar-form.navbar-left(method="post")
+            input(name='_csrf', type='hidden', value=csrfToken)
+            input(name='type', type='hidden', value='search')
+            input.form-control(name="search", type="text", placeholder="Search...")
 
     block content
