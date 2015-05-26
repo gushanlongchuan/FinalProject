@@ -54,7 +54,7 @@ mongoose.connect('mongodb://gushan:gs524410@ds061721.mongolab.com:61721/finalpro
 })
 
 // Use middleware for layout notifications
-app.use(['/newpost', '/profile', '/user', '/stranger', '/posts/:id', '/discover'],stormpath.loginRequired, function(req, res, next) {
+app.use(['/newpost', '/profile', '/user', '/stranger', '/posts/:id', '/discover', '/search'],stormpath.loginRequired, function(req, res, next) {
 
   //Push profile pic
   res.locals['profile_pic'] = req.user.customData.profile_pic || 'images/default_profile.jpg'
@@ -76,10 +76,18 @@ app.use(['/newpost', '/profile', '/user', '/stranger', '/posts/:id', '/discover'
   })
 })
 
+// Use middleware to handle searches
+app.use(stormpath.loginRequired, function(req, res, next) {
+  if (req.body.type == "search") {
+    res.redirect('/search/' + req.body.search)
+  } else {
+    next()
+  }
+})
 
 function renderForm(req,res,locals){
   res.render('home', extend({
-    title: 'home',
+    title: 'InsTrade',
   },locals||{}));
 }
 
@@ -144,6 +152,7 @@ app.get('/', function(req, res, locals) {
           else
             user_pic = req.user.customData.profile_pic;
           renderForm(req,res,extend({
+            title: 'InsTrade',
             posts: postIdList,
             images: urlList,
             profile_pic: user_pic,
@@ -161,11 +170,10 @@ app.get('/', function(req, res, locals) {
   });
 });
 
+app.use('/search/:kw', stormpath.loginRequired, require('./search'));
 app.use('/profile',stormpath.loginRequired,require('./profile')());
 app.use('/user',stormpath.loginRequired,require('./user'));
 app.use('/newpost',stormpath.loginRequired,require('./newpost'));
 app.use('/stranger',stormpath.loginRequired,require('./stranger'));
 app.use('/posts/:id', stormpath.loginRequired, require('./posts'));
 app.use('/discover',stormpath.loginRequired,require('./discover'));
-//app.listen(3000);
-

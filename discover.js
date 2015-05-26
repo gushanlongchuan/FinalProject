@@ -17,7 +17,7 @@ var application = null;
 
 function renderForm(req,res,locals){
   res.render('discover', extend({
-    title: 'Discover Page',
+    title: 'Discover',
     csrfToken: req.csrfToken(),
   },locals||{}));
 }

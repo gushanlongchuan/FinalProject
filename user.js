@@ -38,7 +38,14 @@ router.post('/', stormpath.loginRequired, function(req, res, locals) {
 				}
 			})
 			post_num = post_num - 1;
-			res.render('user', extend({result:testPass,User_pic:User_pic,posts:post_num,following:following_num,followers:followee_num}, locals||{}))
+			res.render('user', extend({
+				title: 'My posts',
+				result:testPass,
+				User_pic:User_pic,
+				posts:post_num,
+				following:following_num,
+				followers:followee_num
+			}, locals||{}))
 		})
 	}
 	/*else if(req.type == "comment"){
@@ -91,7 +98,10 @@ router.post('/:post_id',function(req,res,locals){
 			user_pic: req.user.customData.profile_pic || 'images/default_profile.jpg',
 			text: newcomment.Content
 		})
-		res.render('user_post', extend({topass:topass},locals||{}))
+		res.render('user_post', extend({
+			title: 'My posts',
+			topass:topass
+		},locals||{}))
 	}
 })
 
@@ -112,7 +122,13 @@ router.get('/', function(req, res, locals) {
 			Friend.find({Friend_id:U_id}, function(err,followee){
 				var followee_num = followee;
 				if (results.length == 0){
-					res.render('user', extend({posts:post_num,following:following_num,followers:followee_num,User_pic:User_picture}, locals||{}))
+					res.render('user', extend({
+						title: 'My posts',
+						posts:post_num,
+						following:following_num,
+						followers:followee_num,
+						User_pic:User_picture
+					}, locals||{}))
 				}
 				results.forEach(function(result, idx) {
 					Like.count({Post_id:result._id},function(err, countRes){
@@ -120,7 +136,7 @@ router.get('/', function(req, res, locals) {
 						var topass;
 						topass = {
 							// Title of the page
-							title: 'Posts',
+							title: 'My posts',
 							// Current user data
 							user_data: {
 								User_id: req.user.href,
@@ -152,7 +168,14 @@ router.get('/', function(req, res, locals) {
 									content:topass
 								})
 								if(testPass.length == results.length){
-									res.render('user', extend({result:testPass,followers:followee_num, following:following_num, posts:post_num,User_pic:User_picture}, locals||{}))
+									res.render('user', extend({
+										title: 'My posts',
+										result:testPass,
+										followers:followee_num,
+										following:following_num,
+										posts:post_num,
+										User_pic:User_picture
+									}, locals||{}))
 								}
 							}
 							else{
@@ -173,7 +196,14 @@ router.get('/', function(req, res, locals) {
 											})
 										}
 										if(testPass.length == results.length && topass.post_data.Comments.length == comments.length){
-											res.render('user', extend({posts:post_num,following:following_num,followers:followee_num,User_pic:User_picture,result:testPass}, locals||{}))
+											res.render('user', extend({
+												title: 'My posts',
+												posts:post_num,
+												following:following_num,
+												followers:followee_num,
+												User_pic:User_picture,
+												result:testPass
+											}, locals||{}))
 										}
 									})
 								})
@@ -183,8 +213,8 @@ router.get('/', function(req, res, locals) {
 				})
 			})
 		})
-	});
-});	
+	})
+})
 
 router.get('/:post_id',function(req,res,locals){
 	topass = [];
@@ -224,12 +254,18 @@ router.get('/:post_id',function(req,res,locals){
 						text: com.Content
 					})
 					if (topass.post_data.Comments.length == comments.length) {
-						res.render('user_post', extend({topass:topass},locals||{}))
+						res.render('user_post', extend({
+							title: 'My posts',
+							topass:topass
+						},locals||{}))
 					}
 				})
 			})
 			if (comments.length == 0) {
-				res.render('user_post', extend({topass:topass},locals||{}))
+				res.render('user_post', extend({
+					title: 'My posts',
+					topass:topass
+				},locals||{}))
 			}
 		})
 	})

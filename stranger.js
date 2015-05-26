@@ -39,18 +39,24 @@ router.get('/:stranger_id', function(req, res, locals){
 							var following_num = following;
 							Friend.count({Friend_id:Stranger_id}, function(err,followee){
 								var followee_num = followee;
-								res.render('stranger', extend({results : results, clickable:clickable, strangerData: strangerData, User_pic:image_path, followers:followee_num, following:following_num, posts:post_num }, locals||{}))
-
+								res.render('stranger', extend({
+									title: 'Stranger profile',
+									results : results,
+									clickable:clickable,
+									strangerData: strangerData,
+									User_pic:image_path,
+									followers:followee_num,
+									following:following_num,
+									posts:post_num
+								}, locals||{}))
 							})
 						})
-						
 					})
-					
-				});
+				})
 			}
-		});
-	});
-});
+		})
+	})
+})
 
 //add follow relationship
 router.post('/:stranger_id', function(req, res, locals){
@@ -89,14 +95,23 @@ router.post('/:stranger_id', function(req, res, locals){
 									var image_path = sCustomData.profile_pic;
 									if (image_path == undefined) image_path = 'images/default_profile.jpg';
 									followee_num = followee_num + 1;
-									res.render('stranger', extend({results : results, clickable:clickable,strangerData: strangerData, User_pic:image_path,followers:followee_num, following:following_num, posts:post_num}, locals||{}))
+									res.render('stranger', extend({
+										title: 'Stranger profile',
+										results : results,
+										clickable:clickable,
+										strangerData: strangerData,
+										User_pic:image_path,
+										followers:followee_num,
+										following:following_num,
+										posts:post_num
+									}, locals||{}))
 								})
 							}
-						});
+						})
 					}
 				})
 			})
-		});
+		})
 	}
 	else if(req.body.button1 == "following"){
 		var s_id = req.body.stranger_href;
@@ -109,7 +124,16 @@ router.post('/:stranger_id', function(req, res, locals){
 				followee_num = followee_num - 1;
 				Post.find({User_id: s_id},function(err, results){
 					if (err) return err;
-					else res.render('stranger', extend({results : results, clickable:clickable,strangerData: strangerData, User_pic:image_path,followers:followee_num, following:following_num, posts:post_num}, locals||{}))
+					else res.render('stranger', extend({
+						title: 'Stranger profile',
+						results : results,
+						clickable:clickable,
+						strangerData: strangerData,
+						User_pic:image_path,
+						followers:followee_num,
+						following:following_num,
+						posts:post_num
+					}, locals||{}))
 				});	
 			})
 		})

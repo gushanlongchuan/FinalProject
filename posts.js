@@ -23,34 +23,39 @@ stormpathAPI.loadApiKey('apiKey-212N7J7X3ZLZ23YTFP7OL972B.properties', function 
 });
 
 // Initialize variable containing data to pass to view
-var topass;
+var topass = {}
 
 //Process POST
 router.post('/', stormpath.loginRequired, function(req, res, locals) {
+
 	id = req.originalUrl.split("/")[2]
 	U_id = req.user.href.split("/")[5]
+
 	// if button BUY
 	if (req.body.type == "buy") {
-		topass['saved'] = true
-		topass['sold'] = true
+		topass[req.user.href]['saved'] = true
+		topass[req.user.href]['sold'] = true
 		// Update Status of the item
 		Post.findOne({ _id: id }, function(err, post) {
 			post.Status = 1
 			post.save();
 		})
-
-		// Send notif to seller
-		newnotif = {
-			User_id: topass.post_data.User_id,
-			Message: topass.user_data.Username +" bought your item: " + topass.post_data.Title_of_post,
-			Url: req.originalUrl
-		}
-		Notif.create(newnotif, function(err, notif) {
-			console.log(notif)
-			if (err) {
-				console.log(err)
+		// Send notif to seller if not buyer
+		if (topass[req.user.href].post_data.User_id != topass[req.user.href].user_data.User_id.split("/")[5]) {
+			newnotif = {
+				User_id: topass[req.user.href].post_data.User_id,
+				Message: topass[req.user.href].user_data.Username +" bought your item: " + topass[req.user.href].post_data.Title_of_post,
+				Url: req.originalUrl
 			}
-		})
+			Notif.create(newnotif, function(err, notif) {
+				console.log(notif)		
+				// Emit socket for realtime
+				if (req.current_connections["https://api.stormpath.com/v1/accounts/" + topass[req.user.href].post_data.User_id]) {
+					console.log("sending notifification")
+					req.current_connections["https://api.stormpath.com/v1/accounts/" + topass[req.user.href].post_data.User_id].emit('newnotif', notif)
+				}
+			})
+		}
 
 	// if button COMMENT
 	} else if (req.body.type == "comment") {
@@ -70,44 +75,44 @@ router.post('/', stormpath.loginRequired, function(req, res, locals) {
 			}
 		})
 		//Add it to the data to pass to the view
-		topass.post_data.Comments.push({
+		topass[req.user.href].post_data.Comments.push({
 			user_id: newcomment.User_id.split("/")[5],
 			user_name: newcomment.Username,
 			user_pic: req.user.customData.profile_pic || 'images/default_profile.jpg',
 			text: newcomment.Content
 		})
-		// Send notif to seller
-		newnotif = {
-			User_id: topass.post_data.User_id,
-			Message: topass.user_data.Username +" commented on your item: " + topass.post_data.Title_of_post,
-			Url: req.originalUrl
-		}
-		Notif.create(newnotif, function(err, notif) {
-			console.log(notif)
-			if (err) {
-				console.log(err)
+		// Send notif to seller if not commenter
+		if (topass[req.user.href].post_data.User_id != topass[req.user.href].user_data.User_id.split("/")[5]) {
+			newnotif = {
+				User_id: topass[req.user.href].post_data.User_id,
+				Message: topass[req.user.href].user_data.Username +" commented on your item: " + topass[req.user.href].post_data.Title_of_post,
+				Url: req.originalUrl
 			}
-		})
-		// Emit socket
-		if (req.current_connections["https://api.stormpath.com/v1/accounts/" + topass.post_data.User_id]) {
-			console.log("sending notifification")
-			req.current_connections["https://api.stormpath.com/v1/accounts/" + topass.post_data.User_id].emit('newnotif', {coucou: 'data'})
+			Notif.create(newnotif, function(err, notif) {
+				console.log(notif)		
+				// Emit socket for realtime
+				if (req.current_connections["https://api.stormpath.com/v1/accounts/" + topass[req.user.href].post_data.User_id]) {
+					console.log("sending notifification")
+					req.current_connections["https://api.stormpath.com/v1/accounts/" + topass[req.user.href].post_data.User_id].emit('newnotif', notif)
+				}
+			})
 		}
-	}
-	else if(req.body.type == "like"){
+
+	// if button LIKE
+	} else if(req.body.type == "like") {
 		var like = {
 			Liker_id: U_id,
 			Post_id: id
 		}
 		Like.create(like, function(err, like_result){
 			if (err) console.log(err)
-			topass.post_data.Likes += 1;
-			topass.post_data.Has_liked = 'true';
-			res.render('posts', extend(topass,locals||{}))
+			topass[req.user.href].post_data.Likes += 1;
+			topass[req.user.href].post_data.Has_liked = 'true';
+			res.render('posts', extend(topass[req.user.href],locals||{}))
 		})
 	}
 	if(req.body.type != "like")
-		res.render('posts', extend(topass,locals||{}))
+		res.render('posts', extend(topass[req.user.href],locals||{}))
 })
 
 //Process GET
@@ -133,7 +138,7 @@ router.get('/', stormpath.loginRequired, function(req, res, locals) {
 			client.getResource(post.User_id+'/customData', function(err, sellerData) {
 
 				// Data to pass to view
-				topass = {
+				topass[req.user.href] = {
 					// Title of the page
 					title: 'Posts',
 					// Current user data
@@ -161,7 +166,7 @@ router.get('/', stormpath.loginRequired, function(req, res, locals) {
 
 				// If sold
 				if (post.Status) {
-					topass['sold'] = true
+					topass[req.user.href]['sold'] = true
 				}
 
 				//Get comments
@@ -171,20 +176,20 @@ router.get('/', stormpath.loginRequired, function(req, res, locals) {
 						//Get user's customData
 						client.getResource(com.User_id+'/customData', function(err, commenterData) {
 							//Pass to view
-							topass.post_data.Comments.push({
+							topass[req.user.href].post_data.Comments.push({
 								user_id: com.User_id.split("/")[5],
 								user_name: com.Username,
 								user_pic: commenterData.profile_pic || 'images/default_profile.jpg',
 								text: com.Content
 							})
-							if (topass.post_data.Comments.length == comments.length) {
-								res.render('posts', extend(topass,locals||{}))
+							if (topass[req.user.href].post_data.Comments.length == comments.length) {
+								res.render('posts', extend(topass[req.user.href],locals||{}))
 							}
 						})
 					})
 					// Render to the view all the information about the post and the seller
 					if (comments.length == 0) {
-						res.render('posts', extend(topass,locals||{}))
+						res.render('posts', extend(topass[req.user.href],locals||{}))
 					}
 				})
 			})
