@@ -9,22 +9,35 @@ In the root directory:
 1. Make sure you have installed npm.
 2. Type `npm install`.
 3. Type `node app.js` to start the server.
-4. Go to [localhost:3000](localhost:3000) to start **InsTrade**!
+4. Go to [localhost:3000](https://localhost:3000) to start **InsTrade**!
 
-**NB:** You need a stormpath apikey to run the code.
+**NB:** You need a [Stormpath API](https://stormpath.com/) key to run the code.
 
-**NB:** In you `app.js` file, you add this line below and you will connect to our [mongoDB](https://www.mongodb.org/) cloud database:
+**NB:** In `app.js`, you can add this line below and you will connect to our [mongoDB](https://www.mongodb.org/) cloud database:
 
 ```javascript
 mongoose.connect('mongodb://gushan:gs524410@ds061721.mongolab.com:61721/finalproject');
 ```
 
-The account is `gushan`, password is: `gs524410`.
+The account is `gushan`, the password is `gs524410`.
 If you want to login the website to view the tables, you can go to [Mongolab](https://mongolab.com) and login with the account and password above.
 After you login, click `finalproject` and you will see all the tables.
 
-## Framework
-In the code, there are 7 main URLs including the index page:
+## Frameworks
+
+We used [Express](http://expressjs.com/), a web framework for [Node.js](https://nodejs.org/).
+We connected to [mongoDB](https://www.mongodb.org/) with [Mongoose](http://mongoosejs.com/).
+We used [Stormpath](https://stormpath.com/) for authentication and user management.
+
+## Authentication
+
+In the index page, a new user will need to register a new user account to access the rest of the app. The middleware we used is [Stormpath](https://stormpath.com/). It takes care of user management and authentication.
+
+We also use it as our **user database**: it can store basic information about a user such as his name, but also customized data, such as profile pictures, address, etc. Each user is assigned a user id of the following form `3f0Qw7Y9AvRFPvGWNLZeKh`. This key enables us to **match users** in our own database with [Stormpath API](http://docs.stormpath.com/rest/product-guide/). 
+
+## Functionalities
+
+In the code, there are 8 main URLs including the index page:
 
 1. `/`
 2. `/user`
@@ -33,16 +46,9 @@ In the code, there are 7 main URLs including the index page:
 5. `/stranger/:id`
 6. `/posts/:id`
 7. `/newpost`
+8. `/search/:keyword`
 
-These compose the whole web application. 
-
-## Authentication
-
-In the index page, the new user will need to register a new user account. The middleware we used is [Stormpath](https://stormpath.com/). It takes care of user management and authentication for us.
-
-We also use it as our **user database**: it can store basic information about a user such as his name, but also customized data, such as profile pictures, address, etc. Each user is assigned a user id of the following form `3f0Qw7Y9AvRFPvGWNLZeKh`. This key enables us to **match users** in our own database with [Stormpath API](http://docs.stormpath.com/rest/product-guide/). 
-
-## Functionalities
+They compose the whole web application. 
 
 1. `/`
 When the user is logged in, the **index** page will show the latest posts by traders followed by the user. The posts showed are based on post time, and the most recent ones appear first.
@@ -59,10 +65,12 @@ When the user is logged in, the **index** page will show the latest posts by tra
 
 7. `/newpost` When you want to **create a new post** (meaning selling an item yourself), you can go to  this URL, fill in the information about the item, upload one picture of your item and click on the post button.
 
+8. `/search/:keyword` When you want to **search the whole app**, you can launch a search in the navbar and you will be redirected to this URL where your search results will be displayed.
+
 To navigate between all these functionalities, there is a menu bar on top of the page so the user can switch between URLs easily.
 
 The **menu bar** also shows the current logged-in user’s profile picture and his notifications.
-Our application has a notification system which will show the number of new notifications on menu bar when someone purchases your item or comments on your post. You can click on the notification, then there will be a dropdown menu showing all unread notifications. Click on the **OK** button of each notification to dismiss it.
+Our application has a notification system which shows new notifications in the navbar when someone purchases your item or comments on your post. You can click on the notification, then there will be a dropdown menu showing all unread notifications. Click on the **OK** button of each notification to dismiss it.
 
 The user will use the **logout** button on the menu bar to logout.
 
