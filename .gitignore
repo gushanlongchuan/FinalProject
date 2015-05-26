@@ -1,2 +1,3 @@
-node_modules/*
-*.properties
+node_modules/
+.gitignore
+.elasticbeanstalk/
