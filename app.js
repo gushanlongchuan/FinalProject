@@ -7,6 +7,7 @@ var extend = require('xtend');
 var mongoose = require('mongoose');
 var quickthumb = require('quickthumb');
 var extend = require('xtend');
+var favicon = require('serve-favicon');
 var Notif = require('./module/notif_table.js');
 var Post = require('./module/post_table.js');
 var Friend = require('./module/Friend_table.js')
@@ -41,6 +42,7 @@ var stormpathMiddleware = stormpath.init(app, {
 //Middlewares
 app.use(logger())
 app.use(stormpathMiddleware)
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use('/images', stormpath.loginRequired, quickthumb.static(__dirname + '/images'))
 app.use(express.static('public'))
 
