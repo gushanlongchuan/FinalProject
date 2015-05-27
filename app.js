@@ -16,7 +16,7 @@ var app = express();
 var current_connections = {}
 var server = http.Server(app);
 var io = require('socket.io')(server);
-server.listen(3000);
+server.listen(process.env.PORT || 3000);
 io.on('connection', function(socket) {
   socket.on('imhere', function(message) {
     current_connections[message.token] = socket
