@@ -1,6 +1,6 @@
 
 // create a new websocket
-var socket = io.connect("http://instrade.elasticbeanstalk.com ");
+var socket = io.connect(window.location.href.split('/').slice(0,-1).join([separator='/']));
 
 // Send info to server when user accepts notif
 function acceptNotif(id) {

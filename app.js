@@ -16,8 +16,10 @@ var app = express();
 var current_connections = {}
 var server = http.Server(app);
 var io = require('socket.io')(server);
-server.listen(process.env.PORT || 3000);
-console.log('server listening on port: ' + process.env.PORT)
+var port = process.env.PORT || 3000;
+server.listen(port);
+console.log('Server listening on port: ' + port)
+
 io.on('connection', function(socket) {
   socket.on('imhere', function(message) {
     current_connections[message.token] = socket
@@ -27,8 +29,6 @@ io.on('connection', function(socket) {
     Notif.find({_id: notif_id.id}).remove(function(err, result) {})
   });
 })
-
-console.log('here')
 
 app.set('views', './views');
 app.set('view engine', 'jade');

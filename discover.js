@@ -41,11 +41,11 @@ router.route('/')
         // Get all users from stormpath and list them
         var i = 0;
         var items = accounts.items;
-        console.log(items);
+        //console.log(items);
         for(i=0;i<items.length;i++){
            var account = items[i];
-           console.log(account.username);
-           console.log(account.href);
+           //console.log(account.username);
+           //console.log(account.href);
            //userList.push(account.username);
            userList[i] = account.href;
         }
@@ -62,8 +62,8 @@ router.route('/')
            Friend.find({User_id:U_id, Friend_id:other_id}, function(err, results){
               if (results.length != 0){
                 friendList[count] = results[0].Friend_id;
-                console.log(friendList);
-                console.log("other id inside is: "+friendList[count]+" count is "+count);
+                //console.log(friendList);
+                //console.log("other id inside is: "+friendList[count]+" count is "+count);
                 count = count + 1;
               }
               tot = tot + 1;
@@ -78,13 +78,13 @@ router.route('/')
                       if(result != null){
                         discList[disc] = result.Image_path;
                         showList[disc] = result._id;
-                        console.log(result._id);
-                        console.log(showList);
-                        console.log(discList);
+                        //console.log(result._id);
+                        //console.log(showList);
+                        //console.log(discList);
                         disc = disc + 1;
                       }
                       tot = tot + 1;
-                      console.log(tot+" and "+i);
+                      //console.log(tot+" and "+i);
                       if((disc == 10)||(tot == i)){
                         renderForm(req,res,{
                           dis: true,
