@@ -1,7 +1,6 @@
 var http = require('http');
 var express = require('express');
 var stormpath = require('express-stormpath');
-var mongo = require('mongodb');
 var logger = require('morgan');
 var extend = require('xtend');
 var mongoose = require('mongoose');
