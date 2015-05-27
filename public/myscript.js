@@ -1,6 +1,6 @@
 
 // create a new websocket
-var socket = io.connect(window.location.href.split('/').slice(0,-1).join([separator='/']));
+var socket = io.connect(window.location.href.split('/').slice(0,3).join([separator='/']));
 
 // Send info to server when user accepts notif
 function acceptNotif(id) {
